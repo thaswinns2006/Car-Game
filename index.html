@@ -5,15 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EcoTrack | Carbon Footprint Awareness & Sustainability Platform</title>
-  
+
   <!-- Meta Tags for SEO -->
-  <meta name="description" content="Track your daily environmental impact, calculate carbon footprint, monitor sustainability goals, and discover actionable tips with EcoTrack.">
+  <meta name="description"
+    content="Track your daily environmental impact, calculate carbon footprint, monitor sustainability goals, and discover actionable tips with EcoTrack.">
   <meta name="theme-color" content="#10b981">
 
   <!-- Google Font: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
     /* ==========================================================================
@@ -56,7 +58,7 @@
       --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
       --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.2);
-      
+
       --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
@@ -88,7 +90,9 @@
     }
 
     /* Reset & Global */
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -132,7 +136,10 @@
     }
 
     /* Typography Utilities */
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       font-weight: 700;
       line-height: 1.25;
       color: var(--text-main);
@@ -304,7 +311,8 @@
       position: relative;
     }
 
-    .nav-link:hover, .nav-link.active {
+    .nav-link:hover,
+    .nav-link.active {
       color: var(--emerald);
     }
 
@@ -388,7 +396,7 @@
       flex-direction: column;
       gap: 1.5rem;
       transition: right var(--transition-normal);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
 
     .mobile-drawer.open {
@@ -485,7 +493,8 @@
       stroke: url(#scoreGrad);
       stroke-width: 12;
       stroke-dasharray: 440;
-      stroke-dashoffset: 96; /* Calculated dynamically */
+      stroke-dashoffset: 96;
+      /* Calculated dynamically */
       stroke-linecap: round;
       transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -562,11 +571,30 @@
       font-size: 1.25rem;
     }
 
-    .metric-icon-emerald { background: var(--emerald-light); color: var(--emerald); }
-    .metric-icon-teal { background: rgba(20, 184, 166, 0.15); color: var(--teal); }
-    .metric-icon-cyan { background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
-    .metric-icon-indigo { background: rgba(99, 102, 241, 0.15); color: var(--indigo); }
-    .metric-icon-amber { background: var(--amber-light); color: var(--amber); }
+    .metric-icon-emerald {
+      background: var(--emerald-light);
+      color: var(--emerald);
+    }
+
+    .metric-icon-teal {
+      background: rgba(20, 184, 166, 0.15);
+      color: var(--teal);
+    }
+
+    .metric-icon-cyan {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--cyan);
+    }
+
+    .metric-icon-indigo {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--indigo);
+    }
+
+    .metric-icon-amber {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
 
     .metric-title {
       font-size: 0.85rem;
@@ -674,7 +702,7 @@
       opacity: 0;
       transform: translate(-50%, -110%);
       transition: opacity 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       z-index: 10;
       white-space: nowrap;
     }
@@ -1227,7 +1255,7 @@
       color: var(--text-main);
       padding: 0.85rem 1.25rem;
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -1298,18 +1326,35 @@
 
     /* Animations */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @keyframes slideInRight {
-      from { opacity: 0; transform: translateX(50px); }
-      to { opacity: 1; transform: translateX(0); }
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     /* Responsive Design Breakpoints */
     @media (max-width: 1024px) {
-      .hero-grid, .vis-grid, .two-col-grid {
+
+      .hero-grid,
+      .vis-grid,
+      .two-col-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1388,7 +1433,8 @@
     <div class="container nav-wrapper">
       <a href="#" class="logo">
         <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
             <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
           </svg>
@@ -1408,7 +1454,8 @@
 
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme">
-          <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -1446,7 +1493,8 @@
           </div>
           <h1 id="welcomeHeading">Good morning, Alex 🌱</h1>
           <p class="hero-subtitle" id="welcomeSubtitle">
-            Your estimated footprint is <strong>14% lower</strong> than your weekly average. Small conscious choices make a lasting impact on our planet.
+            Your estimated footprint is <strong>14% lower</strong> than your weekly average. Small conscious choices
+            make a lasting impact on our planet.
           </p>
           <div class="hero-cta">
             <a href="#tracker" class="btn btn-primary">
@@ -1462,7 +1510,8 @@
 
         <!-- Compact Score Gauge Card -->
         <div class="glass-card score-card">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          <span
+            style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
             Sustainability Index
           </span>
           <div class="score-gauge-wrapper">
@@ -1610,7 +1659,8 @@
         <!-- Donut Category Breakdown Card -->
         <div class="glass-card breakdown-card">
           <h3>Emission Breakdown</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact by activity category</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact by activity category
+          </p>
 
           <div class="breakdown-donut-wrapper">
             <svg id="donutSvg" viewBox="0 0 100 100"></svg>
@@ -1633,10 +1683,12 @@
       <div class="glass-card tracker-card">
         <div class="tracker-header">
           <h2>🌱 Daily Impact Tracker</h2>
-          <p style="color: var(--text-muted);">Enter your daily activities to calculate your estimated carbon footprint.</p>
+          <p style="color: var(--text-muted);">Enter your daily activities to calculate your estimated carbon footprint.
+          </p>
           <div class="disclaimer-box">
             <span>ℹ️</span>
-            <span><strong>Illustrative Estimate Notice:</strong> Factors are based on global standard averages (e.g. 0.21 kg/km car, 0.45 kg/kWh power). Actual impact depends on your local grid and vehicle.</span>
+            <span><strong>Illustrative Estimate Notice:</strong> Factors are based on global standard averages (e.g.
+              0.21 kg/km car, 0.45 kg/kWh power). Actual impact depends on your local grid and vehicle.</span>
           </div>
         </div>
 
@@ -1841,7 +1893,8 @@
         </div>
 
         <div style="margin-top: 1rem;">
-          <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Weekly Eco Performance Calendar</span>
+          <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Weekly Eco Performance
+            Calendar</span>
           <div class="weekly-calendar-grid" id="weeklyCalendarGrid">
             <!-- 7 Day Pills -->
           </div>
@@ -1866,7 +1919,8 @@
               <span class="badge badge-emerald">Fundamentals</span>
             </div>
             <h3>What is CO₂e?</h3>
-            <p>Carbon dioxide equivalent (CO₂e) expresses the impact of various greenhouse gases (methane, nitrous oxide) in terms of the amount of CO₂ that would create the same warming effect.</p>
+            <p>Carbon dioxide equivalent (CO₂e) expresses the impact of various greenhouse gases (methane, nitrous
+              oxide) in terms of the amount of CO₂ that would create the same warming effect.</p>
           </div>
           <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="co2e">Read Explanation</button>
         </div>
@@ -1878,7 +1932,8 @@
               <span class="badge badge-amber">Mobility</span>
             </div>
             <h3>Why Transport Matters</h3>
-            <p>Passenger vehicles account for over 45% of global transport carbon emissions. Active travel or public transit dramatically drops individual emissions per kilometer.</p>
+            <p>Passenger vehicles account for over 45% of global transport carbon emissions. Active travel or public
+              transit dramatically drops individual emissions per kilometer.</p>
           </div>
           <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="transport">Read Explanation</button>
         </div>
@@ -1890,7 +1945,8 @@
               <span class="badge badge-emerald">Nutrition</span>
             </div>
             <h3>Food & Agriculture</h3>
-            <p>Red meat production produces nearly 5x the emissions of poultry and 10x that of legumes. Shifting even 2 meals a week to plant-based options has immediate benefits.</p>
+            <p>Red meat production produces nearly 5x the emissions of poultry and 10x that of legumes. Shifting even 2
+              meals a week to plant-based options has immediate benefits.</p>
           </div>
           <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="food">Read Explanation</button>
         </div>
@@ -1902,7 +1958,8 @@
               <span class="badge badge-emerald">Energy</span>
             </div>
             <h3>Home Energy Efficiency</h3>
-            <p>Electricity grids still rely heavily on fossil fuels. Unplugging phantom electronics and optimizing thermostatic controls reduces grid load and utility bills.</p>
+            <p>Electricity grids still rely heavily on fossil fuels. Unplugging phantom electronics and optimizing
+              thermostatic controls reduces grid load and utility bills.</p>
           </div>
           <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="energy">Read Explanation</button>
         </div>
@@ -1920,7 +1977,8 @@
             <div class="logo-icon">🌱</div>
             <span>Eco<span class="gradient-text">Track</span></span>
           </a>
-          <p>Empowering individuals to measure, understand, and shrink their carbon footprint for a cleaner, greener tomorrow.</p>
+          <p>Empowering individuals to measure, understand, and shrink their carbon footprint for a cleaner, greener
+            tomorrow.</p>
         </div>
 
         <div class="footer-links">
@@ -1973,7 +2031,7 @@
       history7Days: [
         { day: 'Mon', date: 'Sep 15', val: 14.2, transport: 7.0, energy: 3.5, food: 2.5, shopping: 0.7, waste: 0.5 },
         { day: 'Tue', date: 'Sep 16', val: 12.8, transport: 6.0, energy: 3.4, food: 2.2, shopping: 0.7, waste: 0.5 },
-        { day: 'Wed', date: 'Sep 17', val: 7.2,  transport: 1.5, energy: 2.8, food: 1.9, shopping: 0.5, waste: 0.5 },
+        { day: 'Wed', date: 'Sep 17', val: 7.2, transport: 1.5, energy: 2.8, food: 1.9, shopping: 0.5, waste: 0.5 },
         { day: 'Thu', date: 'Sep 18', val: 13.5, transport: 6.5, energy: 3.8, food: 2.2, shopping: 0.5, waste: 0.5 },
         { day: 'Fri', date: 'Sep 19', val: 10.1, transport: 4.5, energy: 2.9, food: 1.7, shopping: 0.5, waste: 0.5 },
         { day: 'Sat', date: 'Sep 20', val: 14.8, transport: 5.0, energy: 4.5, food: 3.5, shopping: 1.0, waste: 0.8 },
@@ -2369,10 +2427,10 @@
 
       const categories = [
         { key: 'transport', label: 'Transport', color: '#10b981', val: breakdown.transport, icon: '🚗' },
-        { key: 'energy',    label: 'Home Energy', color: '#f59e0b', val: breakdown.energy, icon: '⚡' },
-        { key: 'food',      label: 'Food Diet', color: '#14b8a6', val: breakdown.food, icon: '🥗' },
-        { key: 'shopping',  label: 'Shopping', color: '#6366f1', val: breakdown.shopping, icon: '🛍️' },
-        { key: 'waste',     label: 'Solid Waste', color: '#f43f5e', val: breakdown.waste, icon: '♻️' }
+        { key: 'energy', label: 'Home Energy', color: '#f59e0b', val: breakdown.energy, icon: '⚡' },
+        { key: 'food', label: 'Food Diet', color: '#14b8a6', val: breakdown.food, icon: '🥗' },
+        { key: 'shopping', label: 'Shopping', color: '#6366f1', val: breakdown.shopping, icon: '🛍️' },
+        { key: 'waste', label: 'Solid Waste', color: '#f43f5e', val: breakdown.waste, icon: '♻️' }
       ];
 
       // Render SVG Donut
@@ -2789,4 +2847,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -1,2851 +1,1385 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoTrack | Carbon Footprint Awareness & Sustainability Platform</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEON OVERDRIVE - 2D Arcade Racing</title>
 
-  <!-- Meta Tags for SEO -->
-  <meta name="description"
-    content="Track your daily environmental impact, calculate carbon footprint, monitor sustainability goals, and discover actionable tips with EcoTrack.">
-  <meta name="theme-color" content="#10b981">
+    <!-- Google Fonts for Modern Retro Arcade Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
 
-  <!-- Google Font: Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-
-  <style>
-    /* ==========================================================================
-       1. DESIGN SYSTEM & CSS VARIABLES
+    <style>
+        /* ==========================================================================
+       1. CSS RESET & DESIGN SYSTEM TOKENS
        ========================================================================== */
-    :root {
-      /* Dark Theme (Default) */
-      --bg-dark: #0b1329;
-      --bg-card: rgba(22, 34, 64, 0.7);
-      --bg-card-hover: rgba(30, 45, 82, 0.85);
-      --bg-card-solid: #152244;
-      --bg-input: rgba(15, 23, 46, 0.8);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(16, 185, 129, 0.3);
+        :root {
+            --bg-dark: #05070e;
+            --card-bg: rgba(12, 18, 34, 0.85);
+            --card-border: rgba(0, 240, 255, 0.25);
 
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
+            --neon-cyan: #00f0ff;
+            --neon-cyan-glow: rgba(0, 240, 255, 0.4);
+            --neon-pink: #ff007f;
+            --neon-pink-glow: rgba(255, 0, 127, 0.4);
+            --neon-yellow: #ffe600;
+            --neon-green: #00ff88;
 
-      /* Eco Palette */
-      --emerald: #10b981;
-      --emerald-dark: #059669;
-      --emerald-light: rgba(16, 185, 129, 0.15);
-      --teal: #14b8a6;
-      --cyan: #06b6d4;
-      --amber: #f59e0b;
-      --amber-light: rgba(245, 158, 11, 0.15);
-      --rose: #f43f5e;
-      --rose-light: rgba(244, 63, 94, 0.15);
-      --indigo: #6366f1;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
 
-      /* Gradients */
-      --grad-emerald: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-      --grad-dark: linear-gradient(180deg, #0b1329 0%, #080d1d 100%);
-      --grad-card: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-      --grad-amber: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      --grad-rose: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-arcade: 'Press Start 2P', monospace;
+        }
 
-      /* Shadows & Radii */
-      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-      --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.2);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
 
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
+        body {
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 80% 85%, rgba(255, 0, 127, 0.08) 0%, transparent 50%);
+            color: var(--text-main);
+            font-family: var(--font-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 12px;
+        }
 
-      --transition-fast: 0.2s ease;
-      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    [data-theme="light"] {
-      --bg-dark: #f0fdf4;
-      --bg-card: rgba(255, 255, 255, 0.85);
-      --bg-card-hover: #ffffff;
-      --bg-card-solid: #ffffff;
-      --bg-input: #f8fafc;
-      --border-card: rgba(16, 185, 129, 0.15);
-      --border-glow: rgba(16, 185, 129, 0.4);
-
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --text-dim: #94a3b8;
-
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 10px 25px -5px rgba(16, 185, 129, 0.08);
-      --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.15);
-
-      --grad-dark: linear-gradient(180deg, #f0fdf4 0%, #e6f4ea 100%);
-      --grad-card: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
-    }
-
-    /* Reset & Global */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--grad-dark);
-      overflow-x: hidden;
-    }
-
-    /* Container Utility */
-    .container {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* Glassmorphism Card */
-    .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-md);
-      transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
-    }
-
-    .glass-card:hover {
-      border-color: var(--border-glow);
-    }
-
-    /* Typography Utilities */
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-weight: 700;
-      line-height: 1.25;
-      color: var(--text-main);
-    }
-
-    .gradient-text {
-      background: var(--grad-emerald);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .badge-emerald {
-      background: var(--emerald-light);
-      color: var(--emerald);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .badge-amber {
-      background: var(--amber-light);
-      color: var(--amber);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-
-    .badge-rose {
-      background: var(--rose-light);
-      color: var(--rose);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-    }
-
-    /* Button System */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: var(--radius-md);
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition-normal);
-      text-decoration: none;
-      outline: none;
-    }
-
-    .btn-primary {
-      background: var(--grad-emerald);
-      color: #0b1329;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-main);
-      border: 1px solid var(--border-card);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: var(--emerald);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--emerald);
-      border: 1px solid var(--emerald);
-    }
-
-    .btn-outline:hover {
-      background: var(--emerald-light);
-      transform: translateY(-2px);
-    }
-
-    .btn-sm {
-      padding: 0.4rem 0.85rem;
-      font-size: 0.85rem;
-      border-radius: var(--radius-sm);
-    }
-
-    .btn-icon {
-      width: 42px;
-      height: 42px;
-      padding: 0;
-      border-radius: var(--radius-full);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ==========================================================================
-       2. TOP NAVIGATION BAR
+        /* ==========================================================================
+       2. MAIN APP CONTAINER & HUD
        ========================================================================== */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 19, 41, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-card);
-      padding: 1rem 0;
-      transition: background var(--transition-normal);
-    }
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
 
-    [data-theme="light"] .navbar {
-      background: rgba(240, 253, 244, 0.9);
-    }
+        /* Top HUD Header */
+        .hud-header {
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.1);
+        }
 
-    .nav-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+        .brand-title {
+            font-family: var(--font-arcade);
+            font-size: 0.75rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan-glow);
+            letter-spacing: 1px;
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text-main);
-      text-decoration: none;
-    }
+        .hud-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--grad-emerald);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0b1329;
-    }
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
 
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: color var(--transition-fast);
-      position: relative;
-    }
+        .stat-value {
+            font-family: var(--font-arcade);
+            font-size: 0.9rem;
+            color: #fff;
+        }
 
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--emerald);
-    }
+        .stat-value.score {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 8px rgba(255, 230, 0, 0.3);
+        }
 
-    .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--emerald);
-      border-radius: 2px;
-    }
+        .stat-value.best {
+            color: var(--neon-green);
+        }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+        /* Controls Bar above Canvas */
+        .action-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px;
+        }
 
-    .theme-toggle {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-card);
-      color: var(--text-main);
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition-fast);
-    }
+        .speed-badge {
+            font-family: var(--font-arcade);
+            font-size: 0.7rem;
+            color: var(--neon-pink);
+            background: rgba(255, 0, 127, 0.1);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--emerald);
-    }
+        .hud-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .profile-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      background: var(--emerald-light);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
+        .hud-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+        }
 
-    .profile-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-    }
-
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-main);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Mobile Drawer */
-    .mobile-drawer {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 280px;
-      height: 100vh;
-      background: var(--bg-dark);
-      border-left: 1px solid var(--border-card);
-      z-index: 200;
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      transition: right var(--transition-normal);
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .mobile-drawer.open {
-      right: 0;
-    }
-
-    .drawer-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 199;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition-normal);
-    }
-
-    .drawer-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* ==========================================================================
-       3. HERO / WELCOME SECTION
+        /* ==========================================================================
+       3. CANVAS & OVERLAY STYLING
        ========================================================================== */
-    .hero-section {
-      padding: 3rem 0 2rem;
-    }
+        .game-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 7;
+            max-height: 70vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 240, 255, 0.15);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            background: #090d18;
+        }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 2rem;
-      align-items: center;
-    }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
 
-    .hero-content h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
+        /* Screen Overlays (Start, Game Over, Pause) */
+        .overlay-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 10, 20, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+            z-index: 20;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
 
-    .hero-subtitle {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      max-width: 600px;
-    }
+        .overlay-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-    .hero-cta {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+        .overlay-title {
+            font-family: var(--font-arcade);
+            font-size: 1.4rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
 
-    /* Compact Score Gauge Card */
-    .score-card {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+        .overlay-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
 
-    .score-gauge-wrapper {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
+        /* Score Cards in Game Over */
+        .score-summary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    .score-svg {
-      transform: rotate(-90deg);
-      width: 100%;
-      height: 100%;
-    }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
 
-    .score-bg-circle {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.08);
-      stroke-width: 12;
-    }
+        .summary-row .label {
+            color: var(--text-muted);
+        }
 
-    .score-progress-circle {
-      fill: none;
-      stroke: url(#scoreGrad);
-      stroke-width: 12;
-      stroke-dasharray: 440;
-      stroke-dashoffset: 96;
-      /* Calculated dynamically */
-      stroke-linecap: round;
-      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .summary-row .val {
+            font-family: var(--font-arcade);
+            font-size: 0.95rem;
+            color: var(--neon-cyan);
+        }
 
-    .score-center-text {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        .new-high-score-tag {
+            font-family: var(--font-arcade);
+            font-size: 0.65rem;
+            color: var(--neon-yellow);
+            background: rgba(255, 230, 0, 0.15);
+            border: 1px solid var(--neon-yellow);
+            padding: 4px 8px;
+            border-radius: 4px;
+            animation: pulse 1s infinite alternate;
+            margin-top: 4px;
+        }
 
-    .score-number {
-      font-size: 2.2rem;
-      font-weight: 800;
-      line-height: 1;
-    }
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                opacity: 0.8;
+            }
 
-    .score-max {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      margin-top: 2px;
-    }
+            to {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
 
-    /* ==========================================================================
-       4. DASHBOARD OVERVIEW (METRIC CARDS)
+        /* Control Instructions Box */
+        .controls-guide {
+            background: rgba(0, 240, 255, 0.04);
+            border: 1px dashed rgba(0, 240, 255, 0.2);
+            border-radius: 12px;
+            padding: 14px;
+            width: 100%;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .guide-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .key-cap {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-arcade);
+            font-size: 0.65rem;
+            color: var(--neon-cyan);
+        }
+
+        /* Arcade Action Buttons */
+        .btn-arcade {
+            font-family: var(--font-arcade);
+            font-size: 0.85rem;
+            color: #05070e;
+            background: linear-gradient(135deg, var(--neon-cyan), #00b3ff);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px var(--neon-cyan-glow);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+        }
+
+        .btn-arcade:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.7);
+        }
+
+        .btn-arcade:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* ==========================================================================
+       4. MOBILE CONTROLS OVERLAY
        ========================================================================== */
-    .dashboard-overview {
-      padding: 1.5rem 0;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .metric-card {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
-
-    .metric-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-
-    .metric-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
-
-    .metric-icon-emerald {
-      background: var(--emerald-light);
-      color: var(--emerald);
-    }
-
-    .metric-icon-teal {
-      background: rgba(20, 184, 166, 0.15);
-      color: var(--teal);
-    }
-
-    .metric-icon-cyan {
-      background: rgba(6, 182, 212, 0.15);
-      color: var(--cyan);
-    }
-
-    .metric-icon-indigo {
-      background: rgba(99, 102, 241, 0.15);
-      color: var(--indigo);
-    }
-
-    .metric-icon-amber {
-      background: var(--amber-light);
-      color: var(--amber);
-    }
-
-    .metric-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .metric-value-box {
-      display: flex;
-      align-items: baseline;
-      gap: 0.35rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .metric-value {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .metric-unit {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .metric-comparison {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       5. CARBON VISUALIZATION & BREAKDOWN SECTION
-       ========================================================================== */
-    .vis-section {
-      padding: 1.5rem 0;
-    }
-
-    .vis-grid {
-      display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .chart-card {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .chart-legend {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      font-size: 0.85rem;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--text-muted);
-    }
-
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: var(--radius-full);
-    }
-
-    .canvas-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      margin-top: 0.5rem;
-    }
-
-    #carbonCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .chart-tooltip {
-      position: absolute;
-      background: rgba(11, 19, 41, 0.95);
-      border: 1px solid var(--emerald);
-      border-radius: var(--radius-sm);
-      padding: 0.6rem 0.85rem;
-      font-size: 0.8rem;
-      color: var(--text-main);
-      pointer-events: none;
-      opacity: 0;
-      transform: translate(-50%, -110%);
-      transition: opacity 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-      z-index: 10;
-      white-space: nowrap;
-    }
-
-    .chart-tooltip.active {
-      opacity: 1;
-    }
-
-    /* Donut Breakdown Card */
-    .breakdown-card {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .breakdown-donut-wrapper {
-      position: relative;
-      width: 180px;
-      height: 180px;
-      margin: 0.5rem auto 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #donutSvg {
-      width: 100%;
-      height: 100%;
-      transform: rotate(-90deg);
-    }
-
-    .donut-center-info {
-      position: absolute;
-      text-align: center;
-    }
-
-    .donut-center-val {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-
-    .donut-center-lbl {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .category-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .category-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .category-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .category-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .category-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: var(--radius-full);
-    }
-
-    .category-bar-bg {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .category-bar-fill {
-      height: 100%;
-      border-radius: var(--radius-full);
-      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* ==========================================================================
-       6. DAILY FOOTPRINT TRACKER (FORM)
-       ========================================================================== */
-    .tracker-section {
-      padding: 1.5rem 0;
-    }
-
-    .tracker-card {
-      padding: 2rem;
-    }
-
-    .tracker-header {
-      margin-bottom: 1.75rem;
-    }
-
-    .disclaimer-box {
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px dashed var(--emerald);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1rem;
-      font-size: 0.85rem;
-      color: var(--emerald);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.75rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.75rem;
-    }
-
-    .form-group-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      padding: 1.25rem;
-    }
-
-    .form-group-title {
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border-card);
-    }
-
-    .input-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .input-field:last-child {
-      margin-bottom: 0;
-    }
-
-    .input-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .input-control {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      color: var(--text-main);
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-      outline: none;
-    }
-
-    .input-control:focus {
-      border-color: var(--emerald);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
-    }
-
-    .tracker-actions {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .calc-result-banner {
-      background: var(--grad-emerald);
-      color: #0b1329;
-      padding: 1rem 1.5rem;
-      border-radius: var(--radius-md);
-      font-size: 1.1rem;
-      font-weight: 700;
-      display: none;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-      width: 100%;
-    }
-
-    .calc-result-banner.active {
-      display: flex;
-      animation: fadeIn 0.4s ease;
-    }
-
-    /* ==========================================================================
-       7. QUICK ACTIONS & PERSONAL GOALS
-       ========================================================================== */
-    .actions-goals-section {
-      padding: 1.5rem 0;
-    }
-
-    .two-col-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    /* Quick Actions */
-    .actions-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .action-card {
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      transition: transform var(--transition-fast);
-    }
-
-    .action-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .action-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-sm);
-      background: var(--emerald-light);
-      color: var(--emerald);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .action-details h4 {
-      font-size: 0.95rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .action-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .action-card.completed {
-      opacity: 0.7;
-      background: rgba(16, 185, 129, 0.05);
-      border-color: rgba(16, 185, 129, 0.2);
-    }
-
-    /* Personal Goals */
-    .goals-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .goal-card {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .goal-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .goal-title-box {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .goal-bar-bg {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-    }
-
-    .goal-bar-fill {
-      height: 100%;
-      background: var(--grad-emerald);
-      border-radius: var(--radius-full);
-      transition: width 0.8s ease;
-    }
-
-    .goal-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       8. DYNAMIC INSIGHTS & WEEKLY SUMMARY
-       ========================================================================== */
-    .insights-weekly-section {
-      padding: 1.5rem 0;
-    }
-
-    .insights-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .insight-card {
-      padding: 1.25rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      border-left: 4px solid var(--emerald);
-    }
-
-    .insight-icon {
-      font-size: 1.5rem;
-      color: var(--emerald);
-      flex-shrink: 0;
-    }
-
-    .insight-text h4 {
-      font-size: 0.95rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .insight-text p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    /* Weekly Summary Grid */
-    .weekly-card {
-      padding: 1.75rem;
-      margin-top: 1.5rem;
-    }
-
-    .weekly-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1.25rem;
-      margin: 1.25rem 0;
-    }
-
-    .weekly-stat-box {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .weekly-stat-val {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--emerald);
-      margin-bottom: 0.2rem;
-    }
-
-    .weekly-stat-lbl {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .weekly-calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .day-pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 0.6rem 0.3rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .day-name {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .day-val {
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .day-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: var(--radius-full);
-    }
-
-    /* ==========================================================================
-       9. EDUCATIONAL SECTION ("Small Changes, Big Impact")
-       ========================================================================== */
-    .edu-section {
-      padding: 1.5rem 0 3rem;
-    }
-
-    .edu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .edu-card {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .edu-icon-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .edu-icon {
-      font-size: 2rem;
-    }
-
-    .edu-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .edu-card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
-
-    /* ==========================================================================
-       10. FOOTER
-       ========================================================================== */
-    .footer {
-      background: rgba(8, 13, 29, 0.95);
-      border-top: 1px solid var(--border-card);
-      padding: 3rem 0 2rem;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .footer-brand p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 0.75rem;
-      max-width: 400px;
-    }
-
-    .footer-links h4 {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      color: var(--text-main);
-    }
-
-    .footer-links ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color var(--transition-fast);
-    }
-
-    .footer-links a:hover {
-      color: var(--emerald);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid var(--border-card);
-      padding-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    /* ==========================================================================
-       11. MODALS & TOAST NOTIFICATION SYSTEM
-       ========================================================================== */
-    .toast-container {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      pointer-events: none;
-    }
-
-    .toast {
-      background: var(--bg-card-solid);
-      border: 1px solid var(--emerald);
-      color: var(--text-main);
-      padding: 0.85rem 1.25rem;
-      border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      pointer-events: auto;
-      animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      max-width: 350px;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition-normal);
-      padding: 1rem;
-    }
-
-    .modal-backdrop.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal {
-      background: var(--bg-dark);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 500px;
-      padding: 2rem;
-      box-shadow: var(--shadow-glow);
-      transform: scale(0.9);
-      transition: transform var(--transition-normal);
-      position: relative;
-    }
-
-    .modal-backdrop.active .modal {
-      transform: scale(1);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .modal-close:hover {
-      color: var(--text-main);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    /* Responsive Design Breakpoints */
-    @media (max-width: 1024px) {
-
-      .hero-grid,
-      .vis-grid,
-      .two-col-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-menu {
-        display: none;
-      }
-
-      .hamburger {
-        display: block;
-      }
-
-      .hero-content h1 {
-        font-size: 2rem;
-      }
-
-      .weekly-calendar-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tracker-card {
-        padding: 1.25rem;
-      }
-    }
-  </style>
+        .mobile-controls {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .touch-btn {
+            background: rgba(12, 18, 34, 0.8);
+            border: 1px solid var(--card-border);
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            padding: 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: background 0.1s, transform 0.1s;
+        }
+
+        .touch-btn:active {
+            background: rgba(0, 240, 255, 0.2);
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 
 <body>
+    <div class="app-container">
 
-  <!-- TOAST CONTAINER -->
-  <div class="toast-container" id="toastContainer"></div>
+        <!-- Top Header / HUD -->
+        <header class="hud-header">
+            <div class="brand-title">NEON OVERDRIVE</div>
+            <div class="hud-stats">
+                <div class="stat-box">
+                    <span class="stat-label">Score</span>
+                    <span id="scoreDisplay" class="stat-value score">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Best</span>
+                    <span id="bestScoreDisplay" class="stat-value best">0</span>
+                </div>
+            </div>
+        </header>
 
-  <!-- MODAL BACKDROP -->
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal" id="modalContent">
-      <!-- Dynamic Content Rendered Here -->
+        <!-- Speedometer & Action Buttons Bar -->
+        <div class="action-bar">
+            <div class="speed-badge">
+                <span>⚡ SPEED:</span>
+                <span id="speedDisplay">60</span>
+                <span>MPH</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button id="soundToggleBtn" class="hud-btn" title="Toggle Sound">🔊 Sound</button>
+                <button id="pauseBtn" class="hud-btn" title="Pause Game">⏸ Pause</button>
+            </div>
+        </div>
+
+        <!-- Main Game Canvas Container -->
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="400" height="700"></canvas>
+
+            <!-- 1. START SCREEN OVERLAY -->
+            <div id="startScreen" class="overlay-screen">
+                <h1 class="overlay-title">NEON OVERDRIVE</h1>
+                <p class="overlay-subtitle">High-Speed Cyber Highway</p>
+
+                <div class="controls-guide">
+                    <div class="guide-item">
+                        <span>Steer Left / Right</span>
+                        <div><span class="key-cap">◄</span> <span class="key-cap">►</span> or <span
+                                class="key-cap">A</span> <span class="key-cap">D</span></div>
+                    </div>
+                    <div class="guide-item">
+                        <span>Accelerate / Slow</span>
+                        <div><span class="key-cap">▲</span> <span class="key-cap">▼</span> or <span
+                                class="key-cap">W</span> <span class="key-cap">S</span></div>
+                    </div>
+                    <div class="guide-item">
+                        <span>Mobile Controls</span>
+                        <span style="color: var(--neon-cyan)">Touch Screen</span>
+                    </div>
+                </div>
+
+                <button id="startBtn" class="btn-arcade">START RACE</button>
+            </div>
+
+            <!-- 2. GAME OVER SCREEN OVERLAY -->
+            <div id="gameOverScreen" class="overlay-screen hidden">
+                <h1 class="overlay-title"
+                    style="background: linear-gradient(135deg, #ff0055, #ff7700); -webkit-background-clip: text;">
+                    CRASHED!</h1>
+                <p class="overlay-subtitle">Your car was destroyed</p>
+
+                <div class="score-summary">
+                    <div class="summary-row">
+                        <span class="label">Final Score</span>
+                        <span id="finalScore" class="val">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Distance Driven</span>
+                        <span id="finalDistance" class="val" style="color: var(--neon-green)">0 mi</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Best Score</span>
+                        <span id="finalBestScore" class="val" style="color: var(--neon-yellow)">0</span>
+                    </div>
+                    <div id="newHighScoreTag" class="new-high-score-tag hidden">NEW HIGH SCORE!</div>
+                </div>
+
+                <button id="restartBtn" class="btn-arcade">RESTART RACE</button>
+            </div>
+
+            <!-- 3. PAUSE SCREEN OVERLAY -->
+            <div id="pauseScreen" class="overlay-screen hidden">
+                <h1 class="overlay-title">GAME PAUSED</h1>
+                <p class="overlay-subtitle">Take a breather</p>
+                <button id="resumeBtn" class="btn-arcade" style="margin-top: 20px;">RESUME</button>
+            </div>
+
+        </div>
+
+        <!-- On-Screen Touch Controls for Mobile Devices -->
+        <div class="mobile-controls">
+            <button id="touchLeft" class="touch-btn">◀ STEER LEFT</button>
+            <button id="touchRight" class="touch-btn">STEER RIGHT ▶</button>
+        </div>
+
     </div>
-  </div>
 
-  <!-- MOBILE DRAWER -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <aside class="mobile-drawer" id="mobileDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <div class="logo">
-        <div class="logo-icon">🌱</div>
-        <span>EcoTrack</span>
-      </div>
-      <button class="modal-close" id="closeDrawerBtn">&times;</button>
-    </div>
-    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
-      <li><a href="#dashboard" class="nav-link drawer-link">Dashboard</a></li>
-      <li><a href="#tracker" class="nav-link drawer-link">Daily Tracker</a></li>
-      <li><a href="#breakdown" class="nav-link drawer-link">Emissions</a></li>
-      <li><a href="#goals" class="nav-link drawer-link">Goals</a></li>
-      <li><a href="#actions" class="nav-link drawer-link">Quick Actions</a></li>
-      <li><a href="#insights" class="nav-link drawer-link">Insights</a></li>
-      <li><a href="#learn" class="nav-link drawer-link">Education</a></li>
-    </ul>
-    <div style="margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem;">
-      <button class="btn btn-primary btn-sm" id="mobileTrackBtn">Track Footprint</button>
-      <button class="btn btn-secondary btn-sm" id="mobileResetBtn">Reset Data</button>
-    </div>
-  </aside>
-
-  <!-- TOP NAVIGATION -->
-  <nav class="navbar">
-    <div class="container nav-wrapper">
-      <a href="#" class="logo">
-        <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-          </svg>
-        </div>
-        <span>Eco<span class="gradient-text">Track</span></span>
-      </a>
-
-      <ul class="nav-menu">
-        <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
-        <li><a href="#tracker" class="nav-link">Tracker</a></li>
-        <li><a href="#breakdown" class="nav-link">Breakdown</a></li>
-        <li><a href="#goals" class="nav-link">Goals</a></li>
-        <li><a href="#actions" class="nav-link">Actions</a></li>
-        <li><a href="#insights" class="nav-link">Insights</a></li>
-        <li><a href="#learn" class="nav-link">Learn</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme">
-          <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
-
-        <button class="profile-btn" id="profileBtn" title="User Settings">A</button>
-
-        <button class="hamburger" id="hamburgerBtn" aria-label="Open Navigation Drawer">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- MAIN CONTENT CONTAINER -->
-  <main class="container">
-
-    <!-- 1. HERO / WELCOME SECTION -->
-    <section class="hero-section" id="dashboard">
-      <div class="hero-grid">
-        <div class="hero-content">
-          <div class="badge badge-emerald" style="margin-bottom: 0.75rem;">
-            <span>🌱 Daily Sustainability Hub</span>
-          </div>
-          <h1 id="welcomeHeading">Good morning, Alex 🌱</h1>
-          <p class="hero-subtitle" id="welcomeSubtitle">
-            Your estimated footprint is <strong>14% lower</strong> than your weekly average. Small conscious choices
-            make a lasting impact on our planet.
-          </p>
-          <div class="hero-cta">
-            <a href="#tracker" class="btn btn-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              Track Today's Footprint
-            </a>
-            <a href="#goals" class="btn btn-secondary">View Goals</a>
-          </div>
-        </div>
-
-        <!-- Compact Score Gauge Card -->
-        <div class="glass-card score-card">
-          <span
-            style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
-            Sustainability Index
-          </span>
-          <div class="score-gauge-wrapper">
-            <svg class="score-svg" viewBox="0 0 160 160">
-              <defs>
-                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#10b981" />
-                  <stop offset="100%" stop-color="#06b6d4" />
-                </linearGradient>
-              </defs>
-              <circle class="score-bg-circle" cx="80" cy="80" r="70" />
-              <circle class="score-progress-circle" id="scoreCircle" cx="80" cy="80" r="70" />
-            </svg>
-            <div class="score-center-text">
-              <span class="score-number gradient-text" id="scoreVal">78</span>
-              <span class="score-max">/ 100</span>
-            </div>
-          </div>
-          <div class="badge badge-emerald" id="scoreStatusBadge">Good Standing</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. DASHBOARD OVERVIEW (METRIC CARDS) -->
-    <section class="dashboard-overview">
-      <div class="section-header">
-        <h2 class="section-title">
-          <span>📊 Today's Metrics</span>
-        </h2>
-        <span style="font-size: 0.85rem; color: var(--text-muted);" id="currentDateLabel">Updated Today</span>
-      </div>
-
-      <div class="metrics-grid">
-        <!-- Carbon Footprint -->
-        <div class="glass-card metric-card">
-          <div class="metric-top">
-            <span class="metric-title">Carbon Footprint</span>
-            <div class="metric-icon-box metric-icon-emerald">🌍</div>
-          </div>
-          <div class="metric-value-box">
-            <span class="metric-value" id="valCarbon">12.4</span>
-            <span class="metric-unit">kg CO₂e</span>
-          </div>
-          <div class="metric-comparison">
-            <span class="badge badge-emerald" id="trendCarbon">↓ 8.8%</span>
-            <span>vs yesterday</span>
-          </div>
-        </div>
-
-        <!-- Energy -->
-        <div class="glass-card metric-card">
-          <div class="metric-top">
-            <span class="metric-title">Energy Usage</span>
-            <div class="metric-icon-box metric-icon-amber">⚡</div>
-          </div>
-          <div class="metric-value-box">
-            <span class="metric-value" id="valEnergy">8.6</span>
-            <span class="metric-unit">kWh</span>
-          </div>
-          <div class="metric-comparison">
-            <span class="badge badge-emerald" id="trendEnergy">↓ 4.4%</span>
-            <span>vs yesterday</span>
-          </div>
-        </div>
-
-        <!-- Transport -->
-        <div class="glass-card metric-card">
-          <div class="metric-top">
-            <span class="metric-title">Transportation</span>
-            <div class="metric-icon-box metric-icon-teal">🚗</div>
-          </div>
-          <div class="metric-value-box">
-            <span class="metric-value" id="valTransport">5.2</span>
-            <span class="metric-unit">kg CO₂e</span>
-          </div>
-          <div class="metric-comparison">
-            <span class="badge badge-emerald" id="trendTransport">↓ 13.3%</span>
-            <span>vs yesterday</span>
-          </div>
-        </div>
-
-        <!-- Water -->
-        <div class="glass-card metric-card">
-          <div class="metric-top">
-            <span class="metric-title">Water Conserved</span>
-            <div class="metric-icon-box metric-icon-cyan">💧</div>
-          </div>
-          <div class="metric-value-box">
-            <span class="metric-value" id="valWater">124</span>
-            <span class="metric-unit">L</span>
-          </div>
-          <div class="metric-comparison">
-            <span class="badge badge-amber" id="trendWater">↑ 3.3%</span>
-            <span>vs yesterday</span>
-          </div>
-        </div>
-
-        <!-- Waste -->
-        <div class="glass-card metric-card">
-          <div class="metric-top">
-            <span class="metric-title">Waste Generated</span>
-            <div class="metric-icon-box metric-icon-indigo">♻️</div>
-          </div>
-          <div class="metric-value-box">
-            <span class="metric-value" id="valWaste">1.8</span>
-            <span class="metric-unit">kg</span>
-          </div>
-          <div class="metric-comparison">
-            <span class="badge badge-emerald" id="trendWaste">→ 0%</span>
-            <span>vs yesterday</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. CARBON VISUALIZATION & BREAKDOWN -->
-    <section class="vis-section" id="breakdown">
-      <div class="vis-grid">
-
-        <!-- 7-Day Canvas Chart Card -->
-        <div class="glass-card chart-card">
-          <div class="chart-header">
-            <div>
-              <h3>7-Day Emission Trend</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Daily carbon output (kg CO₂e)</p>
-            </div>
-            <div class="chart-legend">
-              <div class="legend-item">
-                <div class="legend-dot" style="background: var(--emerald);"></div>
-                <span>Emissions</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-dot" style="background: var(--rose); border-radius: 0; height: 2px;"></div>
-                <span>Target (10.0)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="canvas-container" id="canvasContainer">
-            <canvas id="carbonCanvas"></canvas>
-            <div class="chart-tooltip" id="chartTooltip"></div>
-          </div>
-        </div>
-
-        <!-- Donut Category Breakdown Card -->
-        <div class="glass-card breakdown-card">
-          <h3>Emission Breakdown</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact by activity category
-          </p>
-
-          <div class="breakdown-donut-wrapper">
-            <svg id="donutSvg" viewBox="0 0 100 100"></svg>
-            <div class="donut-center-info">
-              <div class="donut-center-val gradient-text" id="donutTotalVal">12.4</div>
-              <div class="donut-center-lbl">kg CO₂e</div>
-            </div>
-          </div>
-
-          <div class="category-list" id="categoryList">
-            <!-- Dynamic Category Progress Bars -->
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 4. DAILY FOOTPRINT TRACKER (FORM) -->
-    <section class="tracker-section" id="tracker">
-      <div class="glass-card tracker-card">
-        <div class="tracker-header">
-          <h2>🌱 Daily Impact Tracker</h2>
-          <p style="color: var(--text-muted);">Enter your daily activities to calculate your estimated carbon footprint.
-          </p>
-          <div class="disclaimer-box">
-            <span>ℹ️</span>
-            <span><strong>Illustrative Estimate Notice:</strong> Factors are based on global standard averages (e.g.
-              0.21 kg/km car, 0.45 kg/kWh power). Actual impact depends on your local grid and vehicle.</span>
-          </div>
-        </div>
-
-        <form id="trackerForm">
-          <div class="form-grid">
-
-            <!-- Transport Category -->
-            <div class="form-group-card">
-              <h3 class="form-group-title">
-                <span>🚗 Transportation</span>
-              </h3>
-
-              <div class="input-field">
-                <label class="input-label" for="carDistance">Car Travel Distance <span>(km)</span></label>
-                <input type="number" id="carDistance" class="input-control" min="0" step="0.5" value="18">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="vehicleType">Vehicle Type</label>
-                <select id="vehicleType" class="input-control">
-                  <option value="petrol">Petrol Car (~0.21 kg/km)</option>
-                  <option value="diesel">Diesel Car (~0.23 kg/km)</option>
-                  <option value="hybrid">Hybrid Vehicle (~0.12 kg/km)</option>
-                  <option value="electric">Electric Vehicle (~0.05 kg/km)</option>
-                </select>
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="publicTransit">Public Transit Distance <span>(km)</span></label>
-                <input type="number" id="publicTransit" class="input-control" min="0" step="0.5" value="5">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="activeTravel">Walking / Cycling <span>(km)</span></label>
-                <input type="number" id="activeTravel" class="input-control" min="0" step="0.5" value="3">
-              </div>
-            </div>
-
-            <!-- Energy Category -->
-            <div class="form-group-card">
-              <h3 class="form-group-title">
-                <span>⚡ Home Energy</span>
-              </h3>
-
-              <div class="input-field">
-                <label class="input-label" for="electricity">Electricity Usage <span>(kWh)</span></label>
-                <input type="number" id="electricity" class="input-control" min="0" step="0.1" value="8.6">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="naturalGas">Natural Gas Usage <span>(m³)</span></label>
-                <input type="number" id="naturalGas" class="input-control" min="0" step="0.1" value="0.8">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="waterUsage">Water Usage <span>(Liters)</span></label>
-                <input type="number" id="waterUsage" class="input-control" min="0" step="5" value="124">
-              </div>
-            </div>
-
-            <!-- Food Category -->
-            <div class="form-group-card">
-              <h3 class="form-group-title">
-                <span>🥗 Dietary Intake</span>
-              </h3>
-
-              <div class="input-field">
-                <label class="input-label" for="meatMeals">Meat-Based Meals <span>(count)</span></label>
-                <input type="number" id="meatMeals" class="input-control" min="0" step="1" value="1">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="vegMeals">Vegetarian Meals <span>(count)</span></label>
-                <input type="number" id="vegMeals" class="input-control" min="0" step="1" value="1">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="veganMeals">Vegan Meals <span>(count)</span></label>
-                <input type="number" id="veganMeals" class="input-control" min="0" step="1" value="1">
-              </div>
-            </div>
-
-            <!-- Lifestyle Category -->
-            <div class="form-group-card">
-              <h3 class="form-group-title">
-                <span>🛍️ Lifestyle & Waste</span>
-              </h3>
-
-              <div class="input-field">
-                <label class="input-label" for="shoppingItems">New Purchases <span>(items/expenditure)</span></label>
-                <input type="number" id="shoppingItems" class="input-control" min="0" step="1" value="2">
-              </div>
-
-              <div class="input-field">
-                <label class="input-label" for="wasteGen">Solid Waste Generated <span>(kg)</span></label>
-                <input type="number" id="wasteGen" class="input-control" min="0" step="0.1" value="1.8">
-              </div>
-            </div>
-
-          </div>
-
-          <div class="tracker-actions">
-            <button type="submit" class="btn btn-primary" style="padding: 0.9rem 2rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <rect x="4" y="2" width="16" height="20" rx="2"></rect>
-                <line x1="8" y1="6" x2="16" y2="6"></line>
-                <line x1="16" y1="14" x2="16" y2="18"></line>
-                <path d="M16 10h.01"></path>
-                <path d="M12 10h.01"></path>
-                <path d="M8 10h.01"></path>
-                <path d="M12 14h.01"></path>
-                <path d="M8 14h.01"></path>
-                <path d="M12 18h.01"></path>
-                <path d="M8 18h.01"></path>
-              </svg>
-              Calculate Footprint
-            </button>
-
-            <button type="reset" class="btn btn-secondary">Reset Inputs</button>
-          </div>
-
-          <div class="calc-result-banner" id="calcResultBanner">
-            <span>🎉</span>
-            <span id="calcResultText">Your estimated footprint today is 12.4 kg CO₂e.</span>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- 5. QUICK ACTIONS & PERSONAL GOALS -->
-    <section class="actions-goals-section">
-      <div class="two-col-grid">
-
-        <!-- Quick Actions Card -->
-        <div class="glass-card" style="padding: 1.5rem;" id="actions">
-          <div class="section-header">
-            <div>
-              <h3>⚡ Quick Impact Actions</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Simple habits to reduce emissions today</p>
-            </div>
-          </div>
-
-          <div class="actions-grid" id="actionsList">
-            <!-- Dynamic Actions Cards -->
-          </div>
-        </div>
-
-        <!-- Personal Goals Card -->
-        <div class="glass-card" style="padding: 1.5rem;" id="goals">
-          <div class="section-header">
-            <div>
-              <h3>🎯 Personal Goals</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Track targets & progress</p>
-            </div>
-            <button class="btn btn-outline btn-sm" id="addGoalBtn">+ New Goal</button>
-          </div>
-
-          <div class="goals-list" id="goalsList">
-            <!-- Dynamic Goals Cards -->
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 6. DYNAMIC INSIGHTS & WEEKLY SUMMARY -->
-    <section class="insights-weekly-section" id="insights">
-      <div class="section-header">
-        <h2>💡 Personal Insights & Trends</h2>
-      </div>
-
-      <div class="insights-grid" id="insightsGrid">
-        <!-- Dynamically generated insights based on data -->
-      </div>
-
-      <!-- Weekly Summary -->
-      <div class="glass-card weekly-card">
-        <h3>📅 Weekly Overview & Tree Equivalency</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Aggregated progress over the past 7 days</p>
-
-        <div class="weekly-stats-grid">
-          <div class="weekly-stat-box">
-            <div class="weekly-stat-val" id="wkTotal">78.4</div>
-            <div class="weekly-stat-lbl">Total Weekly CO₂e (kg)</div>
-          </div>
-          <div class="weekly-stat-box">
-            <div class="weekly-stat-val" id="wkAvg">11.2</div>
-            <div class="weekly-stat-lbl">Daily Average (kg)</div>
-          </div>
-          <div class="weekly-stat-box">
-            <div class="weekly-stat-val" id="wkChange">-12.5%</div>
-            <div class="weekly-stat-lbl">vs Prior Week</div>
-          </div>
-          <div class="weekly-stat-box">
-            <div class="weekly-stat-val" id="wkBest">Wed</div>
-            <div class="weekly-stat-lbl">Lowest Emission Day</div>
-          </div>
-          <div class="weekly-stat-box">
-            <div class="weekly-stat-val" id="wkTrees">~3.9</div>
-            <div class="weekly-stat-lbl">Trees Needed / Year</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 1rem;">
-          <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Weekly Eco Performance
-            Calendar</span>
-          <div class="weekly-calendar-grid" id="weeklyCalendarGrid">
-            <!-- 7 Day Pills -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. EDUCATIONAL SECTION -->
-    <section class="edu-section" id="learn">
-      <div class="section-header">
-        <div>
-          <h2>📚 Small Changes, Big Impact</h2>
-          <p style="color: var(--text-muted);">Learn how everyday choices shape environmental sustainability.</p>
-        </div>
-      </div>
-
-      <div class="edu-grid">
-        <div class="glass-card edu-card">
-          <div>
-            <div class="edu-icon-header">
-              <span class="edu-icon">🧪</span>
-              <span class="badge badge-emerald">Fundamentals</span>
-            </div>
-            <h3>What is CO₂e?</h3>
-            <p>Carbon dioxide equivalent (CO₂e) expresses the impact of various greenhouse gases (methane, nitrous
-              oxide) in terms of the amount of CO₂ that would create the same warming effect.</p>
-          </div>
-          <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="co2e">Read Explanation</button>
-        </div>
-
-        <div class="glass-card edu-card">
-          <div>
-            <div class="edu-icon-header">
-              <span class="edu-icon">🚘</span>
-              <span class="badge badge-amber">Mobility</span>
-            </div>
-            <h3>Why Transport Matters</h3>
-            <p>Passenger vehicles account for over 45% of global transport carbon emissions. Active travel or public
-              transit dramatically drops individual emissions per kilometer.</p>
-          </div>
-          <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="transport">Read Explanation</button>
-        </div>
-
-        <div class="glass-card edu-card">
-          <div>
-            <div class="edu-icon-header">
-              <span class="edu-icon">🥑</span>
-              <span class="badge badge-emerald">Nutrition</span>
-            </div>
-            <h3>Food & Agriculture</h3>
-            <p>Red meat production produces nearly 5x the emissions of poultry and 10x that of legumes. Shifting even 2
-              meals a week to plant-based options has immediate benefits.</p>
-          </div>
-          <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="food">Read Explanation</button>
-        </div>
-
-        <div class="glass-card edu-card">
-          <div>
-            <div class="edu-icon-header">
-              <span class="edu-icon">💡</span>
-              <span class="badge badge-emerald">Energy</span>
-            </div>
-            <h3>Home Energy Efficiency</h3>
-            <p>Electricity grids still rely heavily on fossil fuels. Unplugging phantom electronics and optimizing
-              thermostatic controls reduces grid load and utility bills.</p>
-          </div>
-          <button class="btn btn-secondary btn-sm open-edu-modal" data-topic="energy">Read Explanation</button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">
-            <div class="logo-icon">🌱</div>
-            <span>Eco<span class="gradient-text">Track</span></span>
-          </a>
-          <p>Empowering individuals to measure, understand, and shrink their carbon footprint for a cleaner, greener
-            tomorrow.</p>
-        </div>
-
-        <div class="footer-links">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#tracker">Daily Tracker</a></li>
-            <li><a href="#breakdown">Breakdown</a></li>
-            <li><a href="#goals">Personal Goals</a></li>
-            <li><a href="#actions">Quick Actions</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-links">
-          <h4>Privacy & Data</h4>
-          <ul>
-            <li><span style="color: var(--text-muted); font-size: 0.85rem;">🔒 100% Client-side Data</span></li>
-            <li><span style="color: var(--text-muted); font-size: 0.85rem;">No Backend Server Required</span></li>
-            <li><a href="#" id="footerResetLink" style="color: var(--rose);">Reset Browser Data</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <span>© 2026 EcoTrack Awareness Platform. Built with Vanilla Web Technologies.</span>
-        <span>Illustrative Estimates for Educational Purposes.</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ==========================================================================
-       JAVASCRIPT LOGIC & CALCULATIONS
-       ========================================================================== -->
-  <script>
-    /* ==========================================================================
-       1. INITIAL STATE & LOCALSTORAGE MANAGEMENT
-       ========================================================================== */
-    const DEFAULT_STATE = {
-      user: {
-        name: "Alex",
-        theme: "dark"
-      },
-      metrics: {
-        carbon: 12.4,
-        energy: 8.6,
-        transport: 5.2,
-        water: 124,
-        waste: 1.8
-      },
-      history7Days: [
-        { day: 'Mon', date: 'Sep 15', val: 14.2, transport: 7.0, energy: 3.5, food: 2.5, shopping: 0.7, waste: 0.5 },
-        { day: 'Tue', date: 'Sep 16', val: 12.8, transport: 6.0, energy: 3.4, food: 2.2, shopping: 0.7, waste: 0.5 },
-        { day: 'Wed', date: 'Sep 17', val: 7.2, transport: 1.5, energy: 2.8, food: 1.9, shopping: 0.5, waste: 0.5 },
-        { day: 'Thu', date: 'Sep 18', val: 13.5, transport: 6.5, energy: 3.8, food: 2.2, shopping: 0.5, waste: 0.5 },
-        { day: 'Fri', date: 'Sep 19', val: 10.1, transport: 4.5, energy: 2.9, food: 1.7, shopping: 0.5, waste: 0.5 },
-        { day: 'Sat', date: 'Sep 20', val: 14.8, transport: 5.0, energy: 4.5, food: 3.5, shopping: 1.0, waste: 0.8 },
-        { day: 'Sun', date: 'Sep 21', val: 12.4, transport: 5.2, energy: 3.8, food: 2.2, shopping: 0.5, waste: 0.7 }
-      ],
-      breakdown: {
-        transport: 5.2,
-        energy: 3.8,
-        food: 2.2,
-        shopping: 0.5,
-        waste: 0.7
-      },
-      actions: [
-        { id: 'act1', title: 'Walk or cycle for short trips', savings: 1.8, diff: 'Easy', icon: '🚲', cat: 'Transport', done: false },
-        { id: 'act2', title: 'Switch off unused electronics', savings: 0.8, diff: 'Easy', icon: '🔌', cat: 'Energy', done: true },
-        { id: 'act3', title: 'Choose 2 plant-based meals', savings: 1.6, diff: 'Easy', icon: '🥗', cat: 'Food', done: true },
-        { id: 'act4', title: 'Use public transit today', savings: 2.5, diff: 'Medium', icon: '🚌', cat: 'Transport', done: false },
-        { id: 'act5', title: 'Cold water laundry wash', savings: 0.7, diff: 'Easy', icon: '🧺', cat: 'Energy', done: false },
-        { id: 'act6', title: 'Reduce food waste & compost', savings: 0.5, diff: 'Medium', icon: '🍂', cat: 'Waste', done: false }
-      ],
-      goals: [
-        { id: 'g1', title: 'Keep daily transport < 4 kg CO₂e', current: 5.2, target: 4.0, unit: 'kg', done: false },
-        { id: 'g2', title: 'Reduce electricity usage', current: 8.6, target: 7.0, unit: 'kWh', done: false },
-        { id: 'g3', title: 'Eat 12 plant-based meals/week', current: 9, target: 12, unit: 'meals', done: false },
-        { id: 'g4', title: 'Active travel > 15 km/week', current: 14, target: 15, unit: 'km', done: false }
-      ]
-    };
-
-    let state = loadState();
-
-    function loadState() {
-      const saved = localStorage.getItem('ecotrack_state');
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch (e) {
-          console.error("Error parsing state", e);
-        }
-      }
-      return JSON.parse(JSON.stringify(DEFAULT_STATE));
-    }
-
-    function saveState() {
-      localStorage.setItem('ecotrack_state', JSON.stringify(state));
-      renderAll();
-    }
-
-    function resetState() {
-      localStorage.removeItem('ecotrack_state');
-      state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-      saveState();
-      showToast("All browser data has been reset to defaults.");
-    }
-
-    /* ==========================================================================
-       2. EMISSION CALCULATION ENGINE
-       ========================================================================== */
-    const EMISSION_FACTORS = {
-      petrol: 0.21,    // kg CO2e / km
-      diesel: 0.23,
-      hybrid: 0.12,
-      electric: 0.05,
-      publicTransit: 0.05,
-      electricity: 0.45, // kg CO2e / kWh
-      naturalGas: 2.0,   // kg CO2e / m3
-      water: 0.0003,     // kg CO2e / L
-      meatMeal: 2.5,     // kg CO2e / meal
-      vegMeal: 0.9,
-      veganMeal: 0.5,
-      shopping: 0.25,    // kg CO2e / unit
-      waste: 1.2         // kg CO2e / kg
-    };
-
-    function calculateFootprintFromForm() {
-      const carDist = parseFloat(document.getElementById('carDistance').value) || 0;
-      const vType = document.getElementById('vehicleType').value;
-      const pubDist = parseFloat(document.getElementById('publicTransit').value) || 0;
-      const activeDist = parseFloat(document.getElementById('activeTravel').value) || 0;
-
-      const elec = parseFloat(document.getElementById('electricity').value) || 0;
-      const gas = parseFloat(document.getElementById('naturalGas').value) || 0;
-      const water = parseFloat(document.getElementById('waterUsage').value) || 0;
-
-      const meat = parseFloat(document.getElementById('meatMeals').value) || 0;
-      const veg = parseFloat(document.getElementById('vegMeals').value) || 0;
-      const vegan = parseFloat(document.getElementById('veganMeals').value) || 0;
-
-      const shop = parseFloat(document.getElementById('shoppingItems').value) || 0;
-      const waste = parseFloat(document.getElementById('wasteGen').value) || 0;
-
-      // Category Math
-      const carFactor = EMISSION_FACTORS[vType] || 0.21;
-      const transportCO2 = (carDist * carFactor) + (pubDist * EMISSION_FACTORS.publicTransit);
-      const energyCO2 = (elec * EMISSION_FACTORS.electricity) + (gas * EMISSION_FACTORS.naturalGas) + (water * EMISSION_FACTORS.water);
-      const foodCO2 = (meat * EMISSION_FACTORS.meatMeal) + (veg * EMISSION_FACTORS.vegMeal) + (vegan * EMISSION_FACTORS.veganMeal);
-      const shoppingCO2 = shop * EMISSION_FACTORS.shopping;
-      const wasteCO2 = waste * EMISSION_FACTORS.waste;
-
-      const totalCO2 = parseFloat((transportCO2 + energyCO2 + foodCO2 + shoppingCO2 + wasteCO2).toFixed(1));
-
-      // Update State
-      state.metrics.carbon = totalCO2;
-      state.metrics.energy = elec;
-      state.metrics.transport = parseFloat(transportCO2.toFixed(1));
-      state.metrics.water = water;
-      state.metrics.waste = waste;
-
-      state.breakdown = {
-        transport: parseFloat(transportCO2.toFixed(1)),
-        energy: parseFloat(energyCO2.toFixed(1)),
-        food: parseFloat(foodCO2.toFixed(1)),
-        shopping: parseFloat(shoppingCO2.toFixed(1)),
-        waste: parseFloat(wasteCO2.toFixed(1))
-      };
-
-      // Update today's entry in 7-day history (last element)
-      if (state.history7Days.length > 0) {
-        const todayIdx = state.history7Days.length - 1;
-        state.history7Days[todayIdx].val = totalCO2;
-        state.history7Days[todayIdx].transport = parseFloat(transportCO2.toFixed(1));
-        state.history7Days[todayIdx].energy = parseFloat(energyCO2.toFixed(1));
-        state.history7Days[todayIdx].food = parseFloat(foodCO2.toFixed(1));
-        state.history7Days[todayIdx].shopping = parseFloat(shoppingCO2.toFixed(1));
-        state.history7Days[todayIdx].waste = parseFloat(wasteCO2.toFixed(1));
-      }
-
-      saveState();
-
-      // Show Result Banner
-      const banner = document.getElementById('calcResultBanner');
-      const text = document.getElementById('calcResultText');
-      text.textContent = `Your calculated footprint today is ${totalCO2} kg CO₂e. Metrics and charts have been updated!`;
-      banner.classList.add('active');
-
-      showToast(`Calculation complete! Today's footprint: ${totalCO2} kg CO₂e.`);
-    }
-
-    /* ==========================================================================
-       3. SUSTAINABILITY SCORE ALGORITHM
-       ========================================================================== */
-    function calculateSustainabilityScore() {
-      // Score ranges 0 - 100
-      // Benchmark: 10 kg CO2e is standard daily target. Lower is better score.
-      const carbon = state.metrics.carbon;
-      let score = 100 - (carbon * 4); // 10kg = 60 base score
-
-      // Bonus for completed actions
-      const completedActions = state.actions.filter(a => a.done).length;
-      score += completedActions * 4;
-
-      // Clamp between 0 and 100
-      score = Math.max(10, Math.min(100, Math.round(score)));
-      return score;
-    }
-
-    /* ==========================================================================
-       4. UI RENDERING & DOM UPDATES
-       ========================================================================== */
-    function renderAll() {
-      renderTheme();
-      renderHeroAndScore();
-      renderMetrics();
-      renderCanvasChart();
-      renderDonutBreakdown();
-      renderActions();
-      renderGoals();
-      renderInsights();
-      renderWeeklySummary();
-    }
-
-    function renderTheme() {
-      document.documentElement.setAttribute('data-theme', state.user.theme || 'dark');
-      const themeIcon = document.getElementById('themeIcon');
-      if (state.user.theme === 'light') {
-        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-      } else {
-        themeIcon.innerHTML = `
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        `;
-      }
-    }
-
-    function renderHeroAndScore() {
-      const now = new Date();
-      const hour = now.getHours();
-      let timeGreeting = "Good morning";
-      if (hour >= 12 && hour < 17) timeGreeting = "Good afternoon";
-      else if (hour >= 17) timeGreeting = "Good evening";
-
-      document.getElementById('welcomeHeading').textContent = `${timeGreeting}, ${state.user.name} 🌱`;
-
-      // Score Calculation
-      const score = calculateSustainabilityScore();
-      document.getElementById('scoreVal').textContent = score;
-
-      // SVG Circle stroke-dashoffset: Circumference = 2 * PI * r = 2 * Math.PI * 70 = ~440
-      const circle = document.getElementById('scoreCircle');
-      const offset = 440 - (440 * score) / 100;
-      circle.style.strokeDashoffset = offset;
-
-      const badge = document.getElementById('scoreStatusBadge');
-      if (score >= 85) {
-        badge.textContent = "Excellent Standing";
-        badge.className = "badge badge-emerald";
-      } else if (score >= 70) {
-        badge.textContent = "Good Progress";
-        badge.className = "badge badge-emerald";
-      } else if (score >= 50) {
-        badge.textContent = "Improving Trend";
-        badge.className = "badge badge-amber";
-      } else {
-        badge.textContent = "Needs Attention";
-        badge.className = "badge badge-rose";
-      }
-    }
-
-    function renderMetrics() {
-      document.getElementById('valCarbon').textContent = state.metrics.carbon.toFixed(1);
-      document.getElementById('valEnergy').textContent = state.metrics.energy.toFixed(1);
-      document.getElementById('valTransport').textContent = state.metrics.transport.toFixed(1);
-      document.getElementById('valWater').textContent = state.metrics.water;
-      document.getElementById('valWaste').textContent = state.metrics.waste.toFixed(1);
-    }
-
-    /* ==========================================================================
-       5. VANILLA JS CANVAS CHART (7-DAY TREND)
-       ========================================================================== */
-    function renderCanvasChart() {
-      const canvas = document.getElementById('carbonCanvas');
-      const container = document.getElementById('canvasContainer');
-      if (!canvas || !container) return;
-
-      // Resize canvas to match display size
-      const rect = container.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-
-      const ctx = canvas.getContext('2d');
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-      const width = rect.width;
-      const height = rect.height;
-      const padding = { top: 20, right: 30, bottom: 40, left: 40 };
-
-      ctx.clearRect(0, 0, width, height);
-
-      const data = state.history7Days;
-      if (!data || data.length === 0) return;
-
-      const maxVal = Math.max(18, ...data.map(d => d.val));
-      const targetVal = 10.0;
-
-      const graphWidth = width - padding.left - padding.right;
-      const graphHeight = height - padding.top - padding.bottom;
-
-      // Draw Grid Lines & Y-Axis Labels
-      ctx.strokeStyle = state.user.theme === 'light' ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)';
-      ctx.fillStyle = state.user.theme === 'light' ? '#64748b' : '#94a3b8';
-      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-      ctx.textAlign = 'right';
-
-      const steps = 4;
-      for (let i = 0; i <= steps; i++) {
-        const yVal = (maxVal / steps) * i;
-        const yPos = height - padding.bottom - (graphHeight / steps) * i;
-
-        ctx.beginPath();
-        ctx.moveTo(padding.left, yPos);
-        ctx.lineTo(width - padding.right, yPos);
-        ctx.stroke();
-
-        ctx.fillText(yVal.toFixed(0), padding.left - 8, yPos + 4);
-      }
-
-      // Draw Target Reference Line
-      const targetY = height - padding.bottom - (targetVal / maxVal) * graphHeight;
-      ctx.save();
-      ctx.setLineDash([5, 5]);
-      ctx.strokeStyle = '#f43f5e';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(padding.left, targetY);
-      ctx.lineTo(width - padding.right, targetY);
-      ctx.stroke();
-      ctx.restore();
-
-      // Compute Point Coordinates
-      const points = data.map((d, i) => {
-        const x = padding.left + (graphWidth / (data.length - 1)) * i;
-        const y = height - padding.bottom - (d.val / maxVal) * graphHeight;
-        return { x, y, data: d };
-      });
-
-      // Draw Area Fill Gradient
-      const grad = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-      grad.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
-      grad.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
-
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, height - padding.bottom);
-      points.forEach(p => ctx.lineTo(p.x, p.y));
-      ctx.lineTo(points[points.length - 1].x, height - padding.bottom);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // Draw Smooth Line Curve
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
-      for (let i = 0; i < points.length - 1; i++) {
-        const xc = (points[i].x + points[i + 1].x) / 2;
-        const yc = (points[i].y + points[i + 1].y) / 2;
-        ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-      }
-      ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 3.5;
-      ctx.stroke();
-
-      // Draw Data Nodes & X-Axis Labels
-      ctx.textAlign = 'center';
-      points.forEach(p => {
-        // Node circle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-        ctx.fillStyle = '#0b1329';
-        ctx.fill();
-        ctx.strokeStyle = '#10b981';
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-
-        // X Label
-        ctx.fillStyle = state.user.theme === 'light' ? '#64748b' : '#94a3b8';
-        ctx.fillText(p.data.day, p.x, height - 12);
-      });
-
-      // Interactive Canvas Hover Tooltip
-      canvas.onmousemove = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        // Find closest point
-        let closest = null;
-        let minDist = 30;
-
-        points.forEach(p => {
-          const dist = Math.hypot(p.x - mouseX, p.y - mouseY);
-          if (dist < minDist) {
-            minDist = dist;
-            closest = p;
-          }
-        });
-
-        const tooltip = document.getElementById('chartTooltip');
-        if (closest) {
-          tooltip.innerHTML = `
-            <strong>${closest.data.day} (${closest.data.date})</strong><br/>
-            🌱 Footprint: <strong>${closest.data.val} kg CO₂e</strong><br/>
-            <span style="font-size:0.75rem; color:var(--text-muted);">
-              🚗 Transport: ${closest.data.transport} | ⚡ Energy: ${closest.data.energy}
-            </span>
-          `;
-          tooltip.style.left = `${closest.x}px`;
-          tooltip.style.top = `${closest.y}px`;
-          tooltip.classList.add('active');
-        } else {
-          tooltip.classList.remove('active');
-        }
-      };
-
-      canvas.onmouseleave = () => {
-        document.getElementById('chartTooltip').classList.remove('active');
-      };
-    }
-
-    /* ==========================================================================
-       6. SVG DONUT & BREAKDOWN RENDERER
-       ========================================================================== */
-    function renderDonutBreakdown() {
-      const breakdown = state.breakdown;
-      const total = Object.values(breakdown).reduce((a, b) => a + b, 0);
-
-      document.getElementById('donutTotalVal').textContent = total.toFixed(1);
-
-      const categories = [
-        { key: 'transport', label: 'Transport', color: '#10b981', val: breakdown.transport, icon: '🚗' },
-        { key: 'energy', label: 'Home Energy', color: '#f59e0b', val: breakdown.energy, icon: '⚡' },
-        { key: 'food', label: 'Food Diet', color: '#14b8a6', val: breakdown.food, icon: '🥗' },
-        { key: 'shopping', label: 'Shopping', color: '#6366f1', val: breakdown.shopping, icon: '🛍️' },
-        { key: 'waste', label: 'Solid Waste', color: '#f43f5e', val: breakdown.waste, icon: '♻️' }
-      ];
-
-      // Render SVG Donut
-      const svg = document.getElementById('donutSvg');
-      let cumulativePercent = 0;
-      let pathHTML = '';
-
-      categories.forEach(cat => {
-        const percent = total > 0 ? cat.val / total : 0;
-        const strokeDasharray = `${percent * 283} ${283 - percent * 283}`;
-        const strokeDashoffset = -cumulativePercent * 283;
-
-        pathHTML += `
-          <circle cx="50" cy="50" r="45"
-            fill="none"
-            stroke="${cat.color}"
-            stroke-width="8"
-            stroke-dasharray="${strokeDasharray}"
-            stroke-dashoffset="${strokeDashoffset}"
-            style="transition: stroke-dasharray 0.8s ease;"
-          />
-        `;
-        cumulativePercent += percent;
-      });
-
-      svg.innerHTML = pathHTML;
-
-      // Render Category Progress Bars
-      const listContainer = document.getElementById('categoryList');
-      listContainer.innerHTML = categories.map(cat => {
-        const pct = total > 0 ? ((cat.val / total) * 100).toFixed(0) : 0;
-        return `
-          <div class="category-item">
-            <div class="category-top">
-              <div class="category-label">
-                <div class="category-dot" style="background: ${cat.color};"></div>
-                <span>${cat.icon} ${cat.label}</span>
-              </div>
-              <span>${cat.val} kg (${pct}%)</span>
-            </div>
-            <div class="category-bar-bg">
-              <div class="category-bar-fill" style="width: ${pct}%; background: ${cat.color};"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    /* ==========================================================================
-       7. ACTIONS & GOALS HANDLERS
-       ========================================================================== */
-    function renderActions() {
-      const container = document.getElementById('actionsList');
-      container.innerHTML = state.actions.map(act => `
-        <div class="glass-card action-card ${act.done ? 'completed' : ''}">
-          <div class="action-left">
-            <div class="action-icon">${act.icon}</div>
-            <div class="action-details">
-              <h4>${act.title}</h4>
-              <div class="action-meta">
-                <span style="color: var(--emerald); font-weight:700;">-${act.savings} kg CO₂e</span>
-                <span>•</span>
-                <span>Difficulty: ${act.diff}</span>
-              </div>
-            </div>
-          </div>
-          <button class="btn ${act.done ? 'btn-secondary' : 'btn-outline'} btn-sm toggle-action-btn" data-id="${act.id}">
-            ${act.done ? '✓ Done' : 'Take Action'}
-          </button>
-        </div>
-      `).join('');
-
-      document.querySelectorAll('.toggle-action-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = e.currentTarget.dataset.id;
-          const act = state.actions.find(a => a.id === id);
-          if (act) {
-            act.done = !act.done;
-            saveState();
-            showToast(act.done ? `Action completed! You saved ~${act.savings} kg CO₂e.` : `Action uncompleted.`);
-          }
-        });
-      });
-    }
-
-    function renderGoals() {
-      const container = document.getElementById('goalsList');
-      container.innerHTML = state.goals.map(g => {
-        const pct = Math.min(100, Math.round((g.current / g.target) * 100));
-        return `
-          <div class="glass-card goal-card">
-            <div class="goal-top">
-              <div class="goal-title-box">
-                <span style="font-size:1.1rem;">🎯</span>
-                <h4 style="font-size:0.95rem;">${g.title}</h4>
-              </div>
-              <span class="badge badge-emerald">${pct}% Achieved</span>
-            </div>
-            <div class="goal-bar-bg">
-              <div class="goal-bar-fill" style="width: ${pct}%;"></div>
-            </div>
-            <div class="goal-controls">
-              <span>Target: ${g.target} ${g.unit} (Current: ${g.current})</span>
-              <button class="btn btn-secondary btn-sm update-goal-btn" data-id="${g.id}">+ Progress</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      document.querySelectorAll('.update-goal-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const id = e.currentTarget.dataset.id;
-          const g = state.goals.find(goal => goal.id === id);
-          if (g) {
-            g.current = parseFloat((g.current + 1.0).toFixed(1));
-            saveState();
-            showToast(`Progress updated for goal: "${g.title}"`);
-          }
-        });
-      });
-    }
-
-    /* ==========================================================================
-       8. DYNAMIC INSIGHTS & WEEKLY SUMMARY
-       ========================================================================== */
-    function renderInsights() {
-      const container = document.getElementById('insightsGrid');
-      const b = state.breakdown;
-
-      // Find highest category
-      let highestCat = 'transport';
-      let highestVal = b.transport;
-      Object.keys(b).forEach(k => {
-        if (b[k] > highestVal) {
-          highestVal = b[k];
-          highestCat = k;
-        }
-      });
-
-      const catNames = { transport: 'Transportation', energy: 'Home Energy', food: 'Food Diet', shopping: 'Shopping', waste: 'Waste' };
-
-      container.innerHTML = `
-        <div class="glass-card insight-card">
-          <div class="insight-icon">🔍</div>
-          <div class="insight-text">
-            <h4>Highest Contributor: ${catNames[highestCat]}</h4>
-            <p>${catNames[highestCat]} makes up ${((highestVal / (state.metrics.carbon || 1)) * 100).toFixed(0)}% of your carbon footprint today. Focusing reduction efforts here yields maximum impact.</p>
-          </div>
-        </div>
-
-        <div class="glass-card insight-card">
-          <div class="insight-icon">📉</div>
-          <div class="insight-text">
-            <h4>7-Day Average Comparison</h4>
-            <p>Your current footprint is 14% below your 7-day average of 14.4 kg CO₂e. Outstanding environmental management!</p>
-          </div>
-        </div>
-
-        <div class="glass-card insight-card">
-          <div class="insight-icon">💡</div>
-          <div class="insight-text">
-            <h4>Actionable Opportunity</h4>
-            <p>Replacing two 10km car commutes with public transit or active cycling can reduce your footprint by ~3.2 kg CO₂e this week.</p>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderWeeklySummary() {
-      const history = state.history7Days;
-      const total = history.reduce((acc, h) => acc + h.val, 0);
-      const avg = (total / (history.length || 1)).toFixed(1);
-
-      document.getElementById('wkTotal').textContent = total.toFixed(1);
-      document.getElementById('wkAvg').textContent = avg;
-
-      // Best day
-      let minDay = history[0];
-      history.forEach(h => { if (h.val < minDay.val) minDay = h; });
-      document.getElementById('wkBest').textContent = minDay ? minDay.day : 'N/A';
-
-      // Trees equivalency (~20 kg CO2 / tree / year)
-      const trees = (total / 20).toFixed(1);
-      document.getElementById('wkTrees').textContent = `~${trees}`;
-
-      // Calendar grid
-      const calGrid = document.getElementById('weeklyCalendarGrid');
-      calGrid.innerHTML = history.map(h => {
-        let dotColor = '#10b981';
-        if (h.val > 14) dotColor = '#f43f5e';
-        else if (h.val > 10) dotColor = '#f59e0b';
-
-        return `
-          <div class="day-pill">
-            <span class="day-name">${h.day}</span>
-            <span class="day-val">${h.val}</span>
-            <div class="day-status-dot" style="background: ${dotColor};"></div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    /* ==========================================================================
-       9. MODALS, TOASTS & UTILITY INTERACTION
-       ========================================================================== */
-    function showToast(msg) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = `<span>🌱</span> <span>${msg}</span>`;
-      container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(50px)';
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
-    }
-
-    function openModal(htmlContent) {
-      const backdrop = document.getElementById('modalBackdrop');
-      const content = document.getElementById('modalContent');
-      content.innerHTML = htmlContent;
-      backdrop.classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('modalBackdrop').classList.remove('active');
-    }
-
-    // Modal Close Backdrop Click
-    document.getElementById('modalBackdrop').addEventListener('click', (e) => {
-      if (e.target.id === 'modalBackdrop') closeModal();
-    });
-
-    /* Event Listeners Initialization */
-    document.addEventListener('DOMContentLoaded', () => {
-
-      renderAll();
-
-      // Form Submit Calculation
-      document.getElementById('trackerForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        calculateFootprintFromForm();
-      });
-
-      // Theme Toggle
-      document.getElementById('themeToggleBtn').addEventListener('click', () => {
-        state.user.theme = state.user.theme === 'dark' ? 'light' : 'dark';
-        saveState();
-        showToast(`Theme switched to ${state.user.theme} mode.`);
-      });
-
-      // Mobile Drawer Toggle
-      const drawer = document.getElementById('mobileDrawer');
-      const overlay = document.getElementById('drawerOverlay');
-
-      document.getElementById('hamburgerBtn').addEventListener('click', () => {
-        drawer.classList.add('open');
-        overlay.classList.add('open');
-      });
-
-      const closeDrawer = () => {
-        drawer.classList.remove('open');
-        overlay.classList.remove('open');
-      };
-
-      document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
-      overlay.addEventListener('click', closeDrawer);
-      document.querySelectorAll('.drawer-link').forEach(link => link.addEventListener('click', closeDrawer));
-
-      // Reset Data Buttons
-      document.getElementById('footerResetLink').addEventListener('click', (e) => {
-        e.preventDefault();
-        showResetConfirmModal();
-      });
-
-      document.getElementById('mobileResetBtn').addEventListener('click', () => {
-        closeDrawer();
-        showResetConfirmModal();
-      });
-
-      document.getElementById('profileBtn').addEventListener('click', () => {
-        showProfileModal();
-      });
-
-      // Add Goal Button
-      document.getElementById('addGoalBtn').addEventListener('click', () => {
-        showAddGoalModal();
-      });
-
-      // Educational Modals
-      document.querySelectorAll('.open-edu-modal').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const topic = e.currentTarget.dataset.topic;
-          showEduModal(topic);
-        });
-      });
-
-      // Window Resize Listener for Canvas Responsiveness
-      window.addEventListener('resize', () => {
-        renderCanvasChart();
-      });
-    });
-
-    /* Modal Templates */
-    function showResetConfirmModal() {
-      openModal(`
-        <div class="modal-header">
-          <h3>⚠️ Reset All Browser Data?</h3>
-          <button class="modal-close" onclick="closeModal()">&times;</button>
-        </div>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
-          This action will restore all metrics, historical entries, goals, and completed actions to default factory settings.
-        </p>
-        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
-          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
-          <button class="btn btn-primary btn-sm" style="background: var(--rose);" onclick="resetState(); closeModal();">Reset Data</button>
-        </div>
-      `);
-    }
-
-    function showProfileModal() {
-      openModal(`
-        <div class="modal-header">
-          <h3>👤 User Profile & Settings</h3>
-          <button class="modal-close" onclick="closeModal()">&times;</button>
-        </div>
-        <div class="input-field">
-          <label class="input-label" for="userNameInput">Display Name</label>
-          <input type="text" id="userNameInput" class="input-control" value="${state.user.name}">
-        </div>
-        <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
-          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
-          <button class="btn btn-primary btn-sm" onclick="
-            const name = document.getElementById('userNameInput').value || 'Alex';
-            state.user.name = name;
-            saveState();
-            closeModal();
-            showToast('Profile updated successfully!');
-          ">Save Settings</button>
-        </div>
-      `);
-    }
-
-    function showAddGoalModal() {
-      openModal(`
-        <div class="modal-header">
-          <h3>🎯 Create New Sustainability Goal</h3>
-          <button class="modal-close" onclick="closeModal()">&times;</button>
-        </div>
-        <div class="input-field">
-          <label class="input-label">Goal Title</label>
-          <input type="text" id="newGoalTitle" class="input-control" placeholder="e.g. Reduce natural gas usage">
-        </div>
-        <div class="input-field">
-          <label class="input-label">Target Value</label>
-          <input type="number" id="newGoalTarget" class="input-control" placeholder="e.g. 5">
-        </div>
-        <div class="input-field">
-          <label class="input-label">Unit of Measure</label>
-          <input type="text" id="newGoalUnit" class="input-control" placeholder="e.g. kWh or km">
-        </div>
-        <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
-          <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
-          <button class="btn btn-primary btn-sm" onclick="
-            const title = document.getElementById('newGoalTitle').value;
-            const target = parseFloat(document.getElementById('newGoalTarget').value) || 10;
-            const unit = document.getElementById('newGoalUnit').value || 'units';
-            if (title) {
-              state.goals.push({ id: 'g' + Date.now(), title, current: 0, target, unit, done: false });
-              saveState();
-              closeModal();
-              showToast('New goal added!');
+    <!-- ==========================================================================
+     5. JAVASCRIPT GAME ENGINE & AUDIO SYNTHESIZER
+     ========================================================================== -->
+    <script>
+        /* ==========================================================================
+           AUDIO SYNTHESIZER (WEB AUDIO API) - Zero External Files
+           ========================================================================== */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+                this.engineOsc = null;
+                this.engineGain = null;
+                this.isEngineRunning = false;
             }
-          ">Add Goal</button>
-        </div>
-      `);
-    }
 
-    function showEduModal(topic) {
-      const eduData = {
-        co2e: {
-          title: "🧪 Understanding Carbon Dioxide Equivalent (CO₂e)",
-          body: "Greenhouse gases include carbon dioxide (CO₂), methane (CH₄), nitrous oxide (N₂O), and fluorinated gases. Because methane traps roughly 28 times more heat than CO₂ over a 100-year timescale, scientists standardise all emissions into 'CO₂ equivalent' (CO₂e). Tracking CO₂e provides a single unified metric for evaluating personal climate impact."
-        },
-        transport: {
-          title: "🚘 Mobility & Decarbonized Transit",
-          body: "Transportation accounts for roughly 1/5th of global greenhouse gas emissions. Gasoline and diesel combustion engines emit direct carbon dioxide from their tailpipes. Transitioning to active travel (walking/biking), mass transit, or electric vehicles significantly reduces lifecycle emissions per passenger kilometer."
-        },
-        food: {
-          title: "🥑 Diet & Agriculture Impact",
-          body: "Agricultural land use, enteric fermentation in livestock, and supply chain refrigeration account for ~26% of global emissions. Ruminant animals like cattle have a disproportionately high methane footprint. Incorporating plant-based meals directly reduces land clearing, water consumption, and greenhouse gas output."
-        },
-        energy: {
-          title: "💡 Grid Electricity & Energy Efficiency",
-          body: "While renewable energy capacity is expanding globally, most regional electricity grids still rely on coal, gas, or oil power plants. Reducing household kWh consumption, utilizing energy-star appliances, and eliminating phantom standby power minimizes fossil fuel burn at central power stations."
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioCtx();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            toggleMute() {
+                this.muted = !this.muted;
+                if (this.muted && this.isEngineRunning) {
+                    this.stopEngine();
+                }
+                return this.muted;
+            }
+
+            // Continuous Engine Sound Synth
+            startEngine() {
+                if (this.muted || this.isEngineRunning) return;
+                this.init();
+                try {
+                    this.engineOsc = this.ctx.createOscillator();
+                    this.engineGain = this.ctx.createGain();
+
+                    this.engineOsc.type = 'sawtooth';
+                    this.engineOsc.frequency.setValueAtTime(45, this.ctx.currentTime); // Low engine rumble
+
+                    // Low pass filter to smooth out synth harmonics
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(180, this.ctx.currentTime);
+
+                    this.engineGain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+
+                    this.engineOsc.connect(filter);
+                    filter.connect(this.engineGain);
+                    this.engineGain.connect(this.ctx.destination);
+
+                    this.engineOsc.start();
+                    this.isEngineRunning = true;
+                } catch (e) {
+                    console.warn('Audio start engine failed', e);
+                }
+            }
+
+            updateEnginePitch(speedRatio) {
+                if (this.muted || !this.isEngineRunning || !this.engineOsc) return;
+                // Pitch shifts dynamically up with car speed
+                const freq = 45 + (speedRatio * 85);
+                this.engineOsc.frequency.setTargetAtTime(freq, this.ctx.currentTime, 0.1);
+            }
+
+            stopEngine() {
+                if (this.engineOsc) {
+                    try {
+                        this.engineOsc.stop();
+                        this.engineOsc.disconnect();
+                    } catch (e) { }
+                    this.engineOsc = null;
+                }
+                this.isEngineRunning = false;
+            }
+
+            // Tire Steer Squeal SFX
+            playSteerSFX() {
+                if (this.muted) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.08);
+
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch (e) { }
+            }
+
+            // Overtake / Bonus Score SFX
+            playOvertakeSFX() {
+                if (this.muted) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.06); // E5
+
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.15);
+                } catch (e) { }
+            }
+
+            // Crash Explosion SFX (Noise Burst + Low Bass Sweep)
+            playCrashSFX() {
+                if (this.muted) return;
+                this.init();
+                this.stopEngine();
+
+                try {
+                    // White noise buffer for explosion texture
+                    const bufferSize = this.ctx.sampleRate * 0.5;
+                    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+
+                    const noise = this.ctx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+                    filter.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.5);
+
+                    const gain = this.ctx.createGain();
+                    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.5);
+
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    noise.start();
+                    noise.stop(this.ctx.currentTime + 0.5);
+                } catch (e) { }
+            }
+
+            // Start Button Click SFX
+            playStartSFX() {
+                if (this.muted) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, this.ctx.currentTime + 0.1);
+
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.25);
+                } catch (e) { }
+            }
         }
-      };
 
-      const info = eduData[topic] || eduData.co2e;
-      openModal(`
-        <div class="modal-header">
-          <h3>${info.title}</h3>
-          <button class="modal-close" onclick="closeModal()">&times;</button>
-        </div>
-        <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; margin-bottom: 1.5rem;">
-          ${info.body}
-        </p>
-        <div style="display: flex; justify-content: flex-end;">
-          <button class="btn btn-primary btn-sm" onclick="closeModal()">Got it!</button>
-        </div>
-      `);
-    }
-  </script>
+        /* ==========================================================================
+           MAIN GAME ENGINE
+           ========================================================================== */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // UI Element References
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const bestScoreDisplay = document.getElementById('bestScoreDisplay');
+        const speedDisplay = document.getElementById('speedDisplay');
+        const soundToggleBtn = document.getElementById('soundToggleBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const pauseScreen = document.getElementById('pauseScreen');
+
+        const startBtn = document.getElementById('startBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const resumeBtn = document.getElementById('resumeBtn');
+
+        const finalScore = document.getElementById('finalScore');
+        const finalDistance = document.getElementById('finalDistance');
+        const finalBestScore = document.getElementById('finalBestScore');
+        const newHighScoreTag = document.getElementById('newHighScoreTag');
+
+        const touchLeftBtn = document.getElementById('touchLeft');
+        const touchRightBtn = document.getElementById('touchRight');
+
+        // Instantiate Audio
+        const soundEngine = new SoundEngine();
+
+        // Road Dimensions & Constants
+        const CANVAS_WIDTH = 400;
+        const CANVAS_HEIGHT = 700;
+        const ROAD_MARGIN = 50;
+        const ROAD_WIDTH = CANVAS_WIDTH - (ROAD_MARGIN * 2); // 300px width
+        const NUM_LANES = 3;
+        const LANE_WIDTH = ROAD_WIDTH / NUM_LANES; // 100px per lane
+
+        // Calculated Lane Center X Positions: Lane 0=100, Lane 1=200, Lane 2=300
+        const LANE_CENTERS = [
+            ROAD_MARGIN + LANE_WIDTH * 0.5,
+            ROAD_MARGIN + LANE_WIDTH * 1.5,
+            ROAD_MARGIN + LANE_WIDTH * 2.5
+        ];
+
+        // Game States
+        const STATE = {
+            MENU: 'MENU',
+            PLAYING: 'PLAYING',
+            PAUSED: 'PAUSED',
+            GAMEOVER: 'GAMEOVER'
+        };
+
+        let currentState = STATE.MENU;
+        let animFrameId = null;
+
+        // Player Data
+        const player = {
+            x: LANE_CENTERS[1],
+            y: CANVAS_HEIGHT - 120,
+            width: 44,
+            height: 76,
+            targetX: LANE_CENTERS[1],
+            currentLane: 1,
+            speedX: 0,
+            tiltAngle: 0
+        };
+
+        // Game Variables
+        let baseSpeed = 7;
+        let currentSpeed = baseSpeed;
+        let maxSpeed = 16;
+        let score = 0;
+        let distance = 0;
+        let bestScore = parseInt(localStorage.getItem('neon_racer_highscore')) || 0;
+        let isNewHighScore = false;
+
+        let roadOffset = 0;
+        let enemyCars = [];
+        let particles = [];
+        let speedLines = [];
+        let cameraShake = 0;
+        let lastSpawnTime = 0;
+
+        // Key Input States
+        const keys = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        };
+
+        /* Initialize High Score UI */
+        bestScoreDisplay.textContent = bestScore;
+
+        /* ==========================================================================
+           CAR & GRAPHICS RENDER HELPERS
+           ========================================================================== */
+
+        // Render Player Car with Cyber Accent Stripes and Light Beams
+        function drawPlayerCar(p) {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.tiltAngle);
+
+            const w = p.width;
+            const h = p.height;
+
+            // Headlight Beam Projection onto Road Ahead
+            const beamGrd = ctx.createLinearGradient(0, -h / 2, 0, -h / 2 - 160);
+            beamGrd.addColorStop(0, 'rgba(0, 240, 255, 0.4)');
+            beamGrd.addColorStop(1, 'rgba(0, 240, 255, 0)');
+
+            ctx.fillStyle = beamGrd;
+            ctx.beginPath();
+            ctx.moveTo(-w * 0.4, -h / 2);
+            ctx.lineTo(-w * 0.8, -h / 2 - 160);
+            ctx.lineTo(w * 0.8, -h / 2 - 160);
+            ctx.lineTo(w * 0.4, -h / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            // Car Shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.beginPath();
+            ctx.roundRect(-w / 2 - 2, -h / 2 + 6, w + 4, h, 10);
+            ctx.fill();
+
+            // Car Wheels (4 tyres)
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(-w / 2 - 3, -h / 2 + 10, 5, 16);
+            ctx.fillRect(w / 2 - 2, -h / 2 + 10, 5, 16);
+            ctx.fillRect(-w / 2 - 3, h / 2 - 24, 5, 16);
+            ctx.fillRect(w / 2 - 2, h / 2 - 24, 5, 16);
+
+            // Main Body Chassis
+            const bodyGrd = ctx.createLinearGradient(-w / 2, 0, w / 2, 0);
+            bodyGrd.addColorStop(0, '#00b3ff');
+            bodyGrd.addColorStop(0.5, '#00f0ff');
+            bodyGrd.addColorStop(1, '#00b3ff');
+
+            ctx.fillStyle = bodyGrd;
+            ctx.beginPath();
+            ctx.roundRect(-w / 2, -h / 2, w, h, 12);
+            ctx.fill();
+
+            // Inner Cyber Stripe
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(-2, -h / 2 + 4, 4, h - 8);
+
+            // Windshield & Cabin Glass
+            ctx.fillStyle = '#060913';
+            ctx.beginPath();
+            ctx.roundRect(-w * 0.35, -h * 0.2, w * 0.7, h * 0.4, 6);
+            ctx.fill();
+
+            // Roof Metallic Sheen
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.2)';
+            ctx.beginPath();
+            ctx.roundRect(-w * 0.28, -h * 0.08, w * 0.56, h * 0.22, 4);
+            ctx.fill();
+
+            // Front Headlights
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = '#00f0ff';
+            ctx.shadowBlur = 10;
+            ctx.fillRect(-w / 2 + 4, -h / 2 + 2, 8, 4);
+            ctx.fillRect(w / 2 - 12, -h / 2 + 2, 8, 4);
+
+            // Rear Taillights Glow
+            ctx.fillStyle = '#ff0055';
+            ctx.shadowColor = '#ff0055';
+            ctx.shadowBlur = 12;
+            ctx.fillRect(-w / 2 + 4, h / 2 - 5, 10, 4);
+            ctx.fillRect(w / 2 - 14, h / 2 - 5, 10, 4);
+
+            ctx.restore();
+        }
+
+        // Render Enemy Car with Type-Specific Styles
+        function drawEnemyCar(car) {
+            ctx.save();
+            ctx.translate(car.x, car.y);
+
+            const w = car.width;
+            const h = car.height;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            ctx.beginPath();
+            ctx.roundRect(-w / 2 - 2, -h / 2 + 4, w + 4, h, 8);
+            ctx.fill();
+
+            // Wheels
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(-w / 2 - 2, -h / 2 + 8, 4, 14);
+            ctx.fillRect(w / 2 - 2, -h / 2 + 8, 4, 14);
+            ctx.fillRect(-w / 2 - 2, h / 2 - 22, 4, 14);
+            ctx.fillRect(w / 2 - 2, h / 2 - 22, 4, 14);
+
+            // Body Gradient based on Car Color
+            const bodyGrd = ctx.createLinearGradient(-w / 2, 0, w / 2, 0);
+            bodyGrd.addColorStop(0, car.colorDark);
+            bodyGrd.addColorStop(0.5, car.colorMain);
+            bodyGrd.addColorStop(1, car.colorDark);
+
+            ctx.fillStyle = bodyGrd;
+            ctx.beginPath();
+            ctx.roundRect(-w / 2, -h / 2, w, h, car.borderRadius || 10);
+            ctx.fill();
+
+            // Cabin Glass
+            ctx.fillStyle = '#0a0e1a';
+            ctx.beginPath();
+            ctx.roundRect(-w * 0.35, -h * 0.22, w * 0.7, h * 0.38, 5);
+            ctx.fill();
+
+            // Headlights (Facing Downward)
+            ctx.fillStyle = '#ffe600';
+            ctx.shadowColor = '#ffe600';
+            ctx.shadowBlur = 8;
+            ctx.fillRect(-w / 2 + 4, h / 2 - 4, 8, 3);
+            ctx.fillRect(w / 2 - 12, h / 2 - 4, 8, 3);
+
+            // Taillights (Facing Upward)
+            ctx.fillStyle = '#ff0055';
+            ctx.shadowColor = '#ff0055';
+            ctx.shadowBlur = 6;
+            ctx.fillRect(-w / 2 + 4, -h / 2 + 2, 8, 3);
+            ctx.fillRect(w / 2 - 12, -h / 2 + 2, 8, 3);
+
+            ctx.restore();
+        }
+
+        /* Enemy Car Generator Template */
+        const CAR_TYPES = [
+            { type: 'sedan', width: 44, height: 72, colorMain: '#ff007f', colorDark: '#b30059', borderRadius: 10 },
+            { type: 'sports', width: 42, height: 76, colorMain: '#ffe600', colorDark: '#b3a200', borderRadius: 14 },
+            { type: 'suv', width: 46, height: 80, colorMain: '#00ff88', colorDark: '#00b359', borderRadius: 8 },
+            { type: 'truck', width: 48, height: 105, colorMain: '#a855f7', colorDark: '#6b21a8', borderRadius: 6 }
+        ];
+
+        function spawnEnemy() {
+            // Pick a random lane (0, 1, or 2)
+            const laneIndex = Math.floor(Math.random() * NUM_LANES);
+            const laneX = LANE_CENTERS[laneIndex];
+
+            // Check vertical distance to last car in the same lane to avoid overlapping spawns
+            const existingInLane = enemyCars.filter(c => c.laneIndex === laneIndex);
+            if (existingInLane.length > 0) {
+                const closestY = Math.min(...existingInLane.map(c => c.y));
+                if (closestY < 180) return; // Don't spawn if space is too cramped
+            }
+
+            const template = CAR_TYPES[Math.floor(Math.random() * CAR_TYPES.length)];
+            // Enemy speed varies slightly relative to player
+            const speedOffset = (Math.random() * 2) - 1;
+
+            enemyCars.push({
+                ...template,
+                x: laneX,
+                y: -120,
+                laneIndex: laneIndex,
+                speedOffset: speedOffset,
+                passed: false
+            });
+        }
+
+        /* Particle Explosion Generator */
+        function createExplosion(x, y) {
+            for (let i = 0; i < 45; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 8 + 2;
+                const colors = ['#ff0055', '#ff7700', '#ffe600', '#00f0ff', '#ffffff'];
+
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    radius: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1,
+                    decay: Math.random() * 0.03 + 0.015
+                });
+            }
+        }
+
+        /* Speed Wind Lines */
+        function initSpeedLines() {
+            speedLines = [];
+            for (let i = 0; i < 20; i++) {
+                speedLines.push({
+                    x: ROAD_MARGIN + Math.random() * ROAD_WIDTH,
+                    y: Math.random() * CANVAS_HEIGHT,
+                    length: Math.random() * 30 + 15,
+                    speed: Math.random() * 5 + 10
+                });
+            }
+        }
+
+        /* ==========================================================================
+           6. GAME LOOP & UPDATE MECHANICS
+           ========================================================================== */
+
+        function resetGame() {
+            player.currentLane = 1;
+            player.x = LANE_CENTERS[1];
+            player.targetX = LANE_CENTERS[1];
+            player.speedX = 0;
+            player.tiltAngle = 0;
+
+            currentSpeed = baseSpeed;
+            score = 0;
+            distance = 0;
+            isNewHighScore = false;
+            roadOffset = 0;
+
+            enemyCars = [];
+            particles = [];
+            cameraShake = 0;
+            lastSpawnTime = performance.now();
+
+            scoreDisplay.textContent = '0';
+            speedDisplay.textContent = Math.round(currentSpeed * 10);
+            newHighScoreTag.classList.add('hidden');
+
+            initSpeedLines();
+        }
+
+        function startGame() {
+            resetGame();
+            currentState = STATE.PLAYING;
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
+
+            soundEngine.playStartSFX();
+            soundEngine.startEngine();
+
+            if (!animFrameId) {
+                lastTime = performance.now();
+                animFrameId = requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function pauseGame() {
+            if (currentState === STATE.PLAYING) {
+                currentState = STATE.PAUSED;
+                pauseScreen.classList.remove('hidden');
+                soundEngine.stopEngine();
+            }
+        }
+
+        function resumeGame() {
+            if (currentState === STATE.PAUSED) {
+                currentState = STATE.PLAYING;
+                pauseScreen.classList.add('hidden');
+                soundEngine.startEngine();
+            }
+        }
+
+        function gameOver() {
+            currentState = STATE.GAMEOVER;
+            soundEngine.playCrashSFX();
+            cameraShake = 25;
+            createExplosion(player.x, player.y);
+
+            // Check High Score
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('neon_racer_highscore', bestScore.toString());
+                bestScoreDisplay.textContent = bestScore;
+                isNewHighScore = true;
+            }
+
+            // Update Game Over UI
+            finalScore.textContent = Math.floor(score);
+            finalDistance.textContent = (distance / 1000).toFixed(1) + ' mi';
+            finalBestScore.textContent = bestScore;
+            if (isNewHighScore) {
+                newHighScoreTag.classList.remove('hidden');
+            }
+
+            setTimeout(() => {
+                gameOverScreen.classList.remove('hidden');
+            }, 700);
+        }
+
+        /* User Input Controls Handling */
+        function handleControls() {
+            if (currentState !== STATE.PLAYING) return;
+
+            // Lateral Movement (Lane switching / smooth steering)
+            if (keys.left) {
+                if (player.currentLane > 0 && player.x <= LANE_CENTERS[player.currentLane] + 5) {
+                    player.currentLane--;
+                    player.targetX = LANE_CENTERS[player.currentLane];
+                    soundEngine.playSteerSFX();
+                    keys.left = false; // Single tap per lane change feel
+                }
+            } else if (keys.right) {
+                if (player.currentLane < NUM_LANES - 1 && player.x >= LANE_CENTERS[player.currentLane] - 5) {
+                    player.currentLane++;
+                    player.targetX = LANE_CENTERS[player.currentLane];
+                    soundEngine.playSteerSFX();
+                    keys.right = false;
+                }
+            }
+
+            // Acceleration / Slowing down
+            let targetSpeed = baseSpeed;
+            if (keys.up) {
+                targetSpeed = maxSpeed;
+            } else if (keys.down) {
+                targetSpeed = baseSpeed * 0.6;
+            }
+
+            // Smoothly interpolate current speed towards target speed
+            currentSpeed += (targetSpeed - currentSpeed) * 0.05;
+        }
+
+        /* Core Updates (Physics, Spawning, Collision) */
+        function update(deltaTime) {
+            if (currentState !== STATE.PLAYING && currentState !== STATE.GAMEOVER) return;
+
+            // Update Camera Shake
+            if (cameraShake > 0) {
+                cameraShake *= 0.9;
+                if (cameraShake < 0.5) cameraShake = 0;
+            }
+
+            // If Playing, update score & speed progression
+            if (currentState === STATE.PLAYING) {
+                // Gradually increase difficulty base speed over time
+                baseSpeed = Math.min(15, 7 + (score / 1500));
+                maxSpeed = baseSpeed + 6;
+
+                // Player smooth lerp positioning to target lane center
+                const dx = player.targetX - player.x;
+                player.x += dx * 0.22;
+                player.tiltAngle = dx * 0.005; // Dynamic tilt while changing lanes
+
+                // Update Road Scrolling Offset
+                roadOffset = (roadOffset + currentSpeed) % 80;
+
+                // Score & Distance Accumulation
+                distance += currentSpeed;
+                score += (currentSpeed * 0.2);
+
+                scoreDisplay.textContent = Math.floor(score);
+                speedDisplay.textContent = Math.round(currentSpeed * 10);
+                soundEngine.updateEnginePitch(currentSpeed / maxSpeed);
+
+                // Spawn Enemies
+                const now = performance.now();
+                const spawnInterval = Math.max(700, 1800 - (currentSpeed * 60));
+                if (now - lastSpawnTime > spawnInterval) {
+                    spawnEnemy();
+                    lastSpawnTime = now;
+                }
+            }
+
+            // Update Enemy Cars Movement & Overtake Check
+            for (let i = enemyCars.length - 1; i >= 0; i--) {
+                const car = enemyCars[i];
+                if (currentState === STATE.PLAYING) {
+                    car.y += currentSpeed + car.speedOffset;
+                }
+
+                // Overtake Score Bonus when player passes enemy
+                if (currentState === STATE.PLAYING && !car.passed && car.y > player.y + player.height) {
+                    car.passed = true;
+                    score += 150; // Bonus points for close pass!
+                    soundEngine.playOvertakeSFX();
+                }
+
+                // Remove off-screen enemies
+                if (car.y > CANVAS_HEIGHT + 150) {
+                    enemyCars.splice(i, 1);
+                    continue;
+                }
+
+                // AABB Collision Detection (Inset hitboxes for forgiving arcade gameplay)
+                if (currentState === STATE.PLAYING) {
+                    const hitPaddingX = 6;
+                    const hitPaddingY = 8;
+
+                    if (
+                        player.x - player.width / 2 + hitPaddingX < car.x + car.width / 2 - hitPaddingX &&
+                        player.x + player.width / 2 - hitPaddingX > car.x - car.width / 2 + hitPaddingX &&
+                        player.y - player.height / 2 + hitPaddingY < car.y + car.height / 2 - hitPaddingY &&
+                        player.y + player.height / 2 - hitPaddingY > car.y - car.height / 2 + hitPaddingY
+                    ) {
+                        gameOver();
+                    }
+                }
+            }
+
+            // Update Speed Lines
+            for (let line of speedLines) {
+                if (currentState === STATE.PLAYING) {
+                    line.y += currentSpeed * 1.5;
+                    if (line.y > CANVAS_HEIGHT) {
+                        line.y = -line.length;
+                        line.x = ROAD_MARGIN + Math.random() * ROAD_WIDTH;
+                    }
+                }
+            }
+
+            // Update Explosion & Smoke Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= p.decay;
+
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        /* ==========================================================================
+           7. RENDER ROAD, ENVIRONMENT & SCENERY
+           ========================================================================== */
+
+        function render() {
+            ctx.save();
+
+            // Camera Shake Effect Matrix
+            if (cameraShake > 0) {
+                const rx = (Math.random() - 0.5) * cameraShake;
+                const ry = (Math.random() - 0.5) * cameraShake;
+                ctx.translate(rx, ry);
+            }
+
+            // 1. Off-Road Synth Grid Background
+            ctx.fillStyle = '#060913';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // Cyber side borders (Grass/Shoulder grid)
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.07)';
+            ctx.lineWidth = 1;
+            for (let y = (roadOffset % 40); y < CANVAS_HEIGHT; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(ROAD_MARGIN, y);
+                ctx.moveTo(CANVAS_WIDTH - ROAD_MARGIN, y);
+                ctx.lineTo(CANVAS_WIDTH, y);
+                ctx.stroke();
+            }
+
+            // 2. Main Road Surface
+            ctx.fillStyle = '#0d1322';
+            ctx.fillRect(ROAD_MARGIN, 0, ROAD_WIDTH, CANVAS_HEIGHT);
+
+            // Road Red & White Curb Edges
+            const curbHeight = 40;
+            for (let y = -curbHeight + (roadOffset % (curbHeight * 2)); y < CANVAS_HEIGHT; y += curbHeight * 2) {
+                // Red Stripe
+                ctx.fillStyle = '#ff0055';
+                ctx.fillRect(ROAD_MARGIN - 6, y, 6, curbHeight);
+                ctx.fillRect(CANVAS_WIDTH - ROAD_MARGIN, y, 6, curbHeight);
+
+                // White Stripe
+                ctx.fillStyle = '#f8fafc';
+                ctx.fillRect(ROAD_MARGIN - 6, y + curbHeight, 6, curbHeight);
+                ctx.fillRect(CANVAS_WIDTH - ROAD_MARGIN, y + curbHeight, 6, curbHeight);
+            }
+
+            // Solid Outer Road Lines
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.6)';
+            ctx.fillRect(ROAD_MARGIN - 2, 0, 3, CANVAS_HEIGHT);
+            ctx.fillRect(CANVAS_WIDTH - ROAD_MARGIN - 1, 0, 3, CANVAS_HEIGHT);
+
+            // 3. Animated Dashed Lane Dividers (3 Lanes)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            const dashLength = 40;
+            const dashGap = 40;
+            for (let lane = 1; lane < NUM_LANES; lane++) {
+                const laneX = ROAD_MARGIN + (lane * LANE_WIDTH);
+                for (let y = -dashLength + roadOffset; y < CANVAS_HEIGHT; y += (dashLength + dashGap)) {
+                    ctx.fillRect(laneX - 2, y, 4, dashLength);
+                }
+            }
+
+            // 4. Render Speed Motion Lines
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+            ctx.lineWidth = 1.5;
+            for (let line of speedLines) {
+                ctx.beginPath();
+                ctx.moveTo(line.x, line.y);
+                ctx.lineTo(line.x, line.y + line.length);
+                ctx.stroke();
+            }
+
+            // 5. Render Enemy Cars
+            for (let car of enemyCars) {
+                drawEnemyCar(car);
+            }
+
+            // 6. Render Player Car (Unless fully destroyed)
+            if (currentState === STATE.PLAYING || (currentState === STATE.GAMEOVER && particles.length < 30)) {
+                drawPlayerCar(player);
+            }
+
+            // 7. Render Particles
+            for (let p of particles) {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, p.alpha);
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        /* Main Loop */
+        let lastTime = 0;
+        function gameLoop(timestamp) {
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+
+            handleControls();
+            update(deltaTime);
+            render();
+
+            animFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        /* ==========================================================================
+           8. EVENT LISTENERS & CONTROL SETUP
+           ========================================================================== */
+
+        // Keyboard Listeners
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = true;
+            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = true;
+
+            // Pause Key
+            if (e.code === 'KeyP') {
+                if (currentState === STATE.PLAYING) pauseGame();
+                else if (currentState === STATE.PAUSED) resumeGame();
+            }
+
+            // Space / Enter for Quick Start / Restart
+            if (e.code === 'Space' || e.code === 'Enter') {
+                if (currentState === STATE.MENU || currentState === STATE.GAMEOVER) {
+                    startGame();
+                }
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = false;
+            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = false;
+        });
+
+        // Touch Button Listeners
+        touchLeftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; });
+        touchLeftBtn.addEventListener('touchend', (e) => { e.preventDefault(); keys.left = false; });
+        touchRightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); keys.right = true; });
+        touchRightBtn.addEventListener('touchend', (e) => { e.preventDefault(); keys.right = false; });
+
+        touchLeftBtn.addEventListener('mousedown', () => { keys.left = true; });
+        touchLeftBtn.addEventListener('mouseup', () => { keys.left = false; });
+        touchRightBtn.addEventListener('mousedown', () => { keys.right = true; });
+        touchRightBtn.addEventListener('mouseup', () => { keys.right = false; });
+
+        // Direct Canvas Tap / Drag Steering for Mobile
+        canvas.addEventListener('touchstart', (e) => {
+            if (currentState !== STATE.PLAYING) return;
+            const rect = canvas.getBoundingClientRect();
+            const touchX = e.touches[0].clientX - rect.left;
+            const relativeX = (touchX / rect.width) * CANVAS_WIDTH;
+
+            if (relativeX < CANVAS_WIDTH / 2) {
+                keys.left = true;
+            } else {
+                keys.right = true;
+            }
+        });
+
+        canvas.addEventListener('touchend', () => {
+            keys.left = false;
+            keys.right = false;
+        });
+
+        // UI Buttons Setup
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', startGame);
+        resumeBtn.addEventListener('click', resumeGame);
+
+        pauseBtn.addEventListener('click', () => {
+            if (currentState === STATE.PLAYING) pauseGame();
+            else if (currentState === STATE.PAUSED) resumeGame();
+        });
+
+        soundToggleBtn.addEventListener('click', () => {
+            const isMuted = soundEngine.toggleMute();
+            soundToggleBtn.textContent = isMuted ? '🔇 Muted' : '🔊 Sound';
+            soundToggleBtn.style.color = isMuted ? 'var(--neon-pink)' : 'var(--text-main)';
+        });
+
+        // Render Initial Frame for Menu Screen
+        render();
+    </script>
 </body>
 
 </html>
